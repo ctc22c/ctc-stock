@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profile | CTC Capital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="../assets/css/style.css" />
+  </head>
+  <body class="min-h-screen bg-[#F8FAFC] text-slate-900">
+    <div class="min-h-screen bg-[#F8FAFC] px-4 py-8 sm:px-6">
+      <main class="max-w-4xl mx-auto p-6 sm:p-10">
+    
+        <div class="space-y-4">
+          <a href="../app/dashboard.html" class="inline-flex items-center gap-2 text-slate-600 font-medium mb-6 hover:text-blue-600 transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path d="M15 19l-7-7 7-7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+            Back to Dashboard
+          </a>
+
+          <header class="rounded-[2rem] bg-white p-8 shadow-2xl shadow-slate-200 border border-slate-200">
+            <div class="flex items-center gap-6">
+              <div class="relative">
+                <div class="flex h-28 w-28 items-center justify-center rounded-full bg-slate-100 text-4xl font-semibold text-slate-500" id="userInitials">U</div>
+                <div class="absolute bottom-0 right-0 flex h-10 w-10 items-center justify-center rounded-full bg-sky-600 text-white shadow-md">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536M9 11l3 3 7-7" />
+                  </svg>
+                </div>
+              </div>
+              <div>
+                <p class="text-3xl font-semibold text-slate-900" id="userName">Loading...</p>
+                <span id="kycStatus" class="mt-4 inline-flex rounded-full bg-red-100 px-3 py-1 text-sm font-semibold text-red-700">Unverified</span>
+              </div>
+            </div>
+          </header>
+
+          <div id="profileNav" class="bg-white rounded-[2.5rem] shadow-2xl shadow-slate-200 border border-slate-200 overflow-hidden">
+            <a href="account-details.html" class="flex items-center justify-between p-5 hover:bg-slate-50 transition-all border-b border-slate-50">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                <span class="font-medium text-slate-700">Personal Details</span>
+              </div>
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+            <a href="kyc.html" class="flex items-center justify-between p-5 hover:bg-slate-50 transition-all border-b border-slate-50">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+                <span class="font-medium text-slate-700">Identity Verification (KYC)</span>
+              </div>
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+            <a href="transactions.html" class="flex items-center justify-between p-5 hover:bg-slate-50 transition-all border-b border-slate-50">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                <span class="font-medium text-slate-700">Transactions</span>
+              </div>
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+            <a href="card.html" class="flex items-center justify-between p-5 hover:bg-slate-50 transition-all border-b border-slate-50">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path></svg>
+                <span class="font-medium text-slate-700">My Cards</span>
+              </div>
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+            <a href="portfolio.html" class="flex items-center justify-between p-5 hover:bg-slate-50 transition-all border-b border-slate-50">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <span class="font-medium text-slate-700">Portfolio</span>
+              </div>
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+            <a href="market.html" class="flex items-center justify-between p-5 hover:bg-slate-50 transition-all border-b border-slate-50">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                <span class="font-medium text-slate-700">Market Overview</span>
+              </div>
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+            <a href="stocks.html" class="flex items-center justify-between p-5 hover:bg-slate-50 transition-all border-b border-slate-50">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                <span class="font-medium text-slate-700">Stocks & Assets</span>
+              </div>
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+            <a href="referrals.html" class="flex items-center justify-between p-5 hover:bg-slate-50 transition-all border-b border-slate-50">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                <span class="font-medium text-slate-700">Refer & Earn</span>
+              </div>
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+            <a href="notifications.html" class="flex items-center justify-between p-5 hover:bg-slate-50 transition-all border-b border-slate-50">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"></path></svg>
+                <span class="font-medium text-slate-700">Notifications</span>
+              </div>
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+            <a href="support.html" class="flex items-center justify-between p-5 hover:bg-slate-50 transition-all border-b border-slate-50">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                <span class="font-medium text-slate-700">Help & Support</span>
+              </div>
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+            <a href="messages.html" class="flex items-center justify-between p-5 hover:bg-slate-50 transition-all border-b border-slate-50">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path></svg>
+                <span class="font-medium text-slate-700">Messages</span>
+              </div>
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+            <a href="settings.html" class="flex items-center justify-between p-5 hover:bg-slate-50 transition-all border-b border-slate-50">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span class="font-medium text-slate-700">Settings</span>
+              </div>
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+            <a href="security.html" class="flex items-center justify-between p-5 hover:bg-slate-50 transition-all">
+              <div class="flex items-center gap-3">
+                <svg class="w-5 h-5 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                <span class="font-medium text-slate-700">Security & Password</span>
+              </div>
+              <svg class="w-5 h-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"></path></svg>
+            </a>
+          </div>
+
+          <div class="mt-8">
+            <button onclick="signOut()" class="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl hover:bg-blue-700 transition shadow-lg shadow-blue-200/50">Sign Out</button>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script type="module">
+// Firebase imports
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// Firebase config
+const firebaseConfig = {
+    apiKey: "AIzaSyAjx0r8OsJAEI8sdTopWadcGYcnD9jcme4",
+    authDomain: "ctc-capital.firebaseapp.com",
+    projectId: "ctc-capital",
+    storageBucket: "ctc-capital.firebasestorage.app",
+    messagingSenderId: "563837502113",
+    appId: "1:563837502113:web:d84ae0e9d07c997ebb26e0",
+    measurementId: "G-7L643VX04V"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Auth Guard
+onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+        window.location.href = "../public/login.html";
+    } else {
+        // Fetch user data
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+            const data = userDoc.data();
+            document.getElementById('userName').innerText = data.fullName || 'User';
+            document.getElementById('userInitials').innerText = data.fullName ? data.fullName.charAt(0).toUpperCase() : 'U';
+
+            const kycStatusElement = document.getElementById('kycStatus');
+            if (kycStatusElement) {
+                const isVerified = data.kycStatus === 'verified';
+                kycStatusElement.innerText = isVerified ? 'Verified' : 'Unverified';
+                kycStatusElement.className = `mt-4 inline-flex rounded-full px-3 py-1 text-sm font-semibold ${isVerified ? 'bg-emerald-100 text-emerald-700' : 'bg-red-100 text-red-700'}`;
+            }
+        }
+    }
+});
+
+function signOut() {
+    auth.signOut().then(() => {
+        window.location.href = "../public/login.html";
+    }).catch((error) => {
+        console.error("Sign out error:", error);
+    });
+}
+    </script>
+  </body>
+</html>

@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Identity Vault | CTC Capital</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: linear-gradient(to bottom, #f8fafc 0%, #f1f5f9 100%);
+        }
+        
+        @keyframes pulse-custom {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+        
+        .pulse-icon {
+            animation: pulse-custom 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        
+        .floating-label {
+            position: relative;
+        }
+        
+        .floating-label input,
+        .floating-label select {
+            width: 100%;
+            padding: 12px 0;
+            background: transparent;
+            border: none;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .floating-label input:focus,
+        .floating-label select:focus {
+            outline: none;
+            border-bottom-color: #0056B3;
+        }
+        
+        .upload-zone {
+            border: 2px dashed #cbd5e1;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-zone:hover,
+        .upload-zone.active {
+            border-color: #0056B3;
+            background-color: #f0f7ff;
+        }
+    </style>
+</head>
+<body class="pb-32">
+
+    <!-- Sticky Header -->
+    <header class="fixed top-0 left-0 right-0 z-40 backdrop-blur-md bg-white/70 border-b border-slate-100">
+        <div class="flex items-center justify-between px-6 py-4 max-w-2xl mx-auto w-full">
+            <a href="profile.html" class="p-2 hover:bg-slate-100 rounded-full transition">
+                <svg class="w-5 h-5 text-slate-900" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path d="M15 19l-7-7 7-7"></path>
+                </svg>
+            </a>
+            
+            <p class="text-sm font-bold tracking-tight text-slate-900">Identity Vault</p>
+            
+            <button class="p-2 hover:bg-slate-100 rounded-full transition">
+                <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Progress Bar -->
+        <div class="w-full h-0.5 bg-slate-100">
+            <div class="h-full w-1/2 bg-gradient-to-r from-blue-600 to-blue-500 transition-all duration-500"></div>
+        </div>
+    </header>
+
+    <main class="mt-24 px-6 max-w-2xl mx-auto space-y-4">
+        <!-- Box 1: Personal Details -->
+        <div class="bg-white rounded-[2rem] border border-slate-100 p-6 shadow-sm">
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6">Personal Details</p>
+            
+            <div class="space-y-6">
+                <!-- Full Name -->
+                <div class="floating-label">
+                    <label for="fullName" class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Full Legal Name</label>
+                    <input 
+                        type="text" 
+                        id="fullName" 
+                        placeholder="Enter your full name"
+                        class="text-slate-900 placeholder-slate-300"
+                        required
+                    >
+                </div>
+                
+                <!-- Date of Birth -->
+                <div class="floating-label">
+                    <label for="dob" class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Date of Birth</label>
+                    <input 
+                        type="date" 
+                        id="dob" 
+                        class="text-slate-900 placeholder-slate-300"
+                        required
+                    >
+                </div>
+            </div>
+        </div>
+
+        <!-- Box 2: Document Details -->
+        <div class="bg-white rounded-[2rem] border border-slate-100 p-6 shadow-sm">
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6">Document Details</p>
+            
+            <div class="space-y-6">
+                <!-- ID Type -->
+                <div class="floating-label">
+                    <label for="idType" class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">ID Type</label>
+                    <select 
+                        id="idType"
+                        class="text-slate-900"
+                        required
+                    >
+                        <option value="">Select ID type</option>
+                        <option value="national-id">National ID</option>
+                        <option value="passport">Passport</option>
+                        <option value="driver-license">Driver's License</option>
+                    </select>
+                </div>
+                
+                <!-- ID Number -->
+                <div class="floating-label">
+                    <label for="idNumber" class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">ID Number</label>
+                    <input 
+                        type="text" 
+                        id="idNumber" 
+                        placeholder="Enter ID number"
+                        class="text-slate-900 placeholder-slate-300"
+                        required
+                    >
+                </div>
+            </div>
+        </div>
+
+        <!-- Box 3: Contact & Address Details -->
+        <div class="bg-white rounded-[2rem] border border-slate-100 p-6 shadow-sm">
+            <p class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-6">Contact & Address Details</p>
+            
+            <div class="space-y-6">
+                <!-- Phone Number -->
+                <div class="floating-label">
+                    <label for="phoneNumber" class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Phone Number (Optional)</label>
+                    <input 
+                        type="tel" 
+                        id="phoneNumber" 
+                        placeholder="Enter phone number"
+                        class="text-slate-900 placeholder-slate-300"
+                    >
+                </div>
+                
+                <!-- Country -->
+                <div class="floating-label">
+                    <label for="country" class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Country</label>
+                    <input 
+                        type="text" 
+                        id="country" 
+                        placeholder="Enter country"
+                        class="text-slate-900 placeholder-slate-300"
+                        required
+                    >
+                </div>
+                
+                <!-- State -->
+                <div class="floating-label">
+                    <label for="state" class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">State</label>
+                    <input 
+                        type="text" 
+                        id="state" 
+                        placeholder="Enter state"
+                        class="text-slate-900 placeholder-slate-300"
+                        required
+                    >
+                </div>
+                
+                <!-- Region/LGA -->
+                <div class="floating-label">
+                    <label for="region" class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Region/LGA</label>
+                    <input 
+                        type="text" 
+                        id="region" 
+                        placeholder="Enter region/LGA"
+                        class="text-slate-900 placeholder-slate-300"
+                        required
+                    >
+                </div>
+                
+                <!-- Street Address -->
+                <div class="floating-label">
+                    <label for="streetAddress" class="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Street Address</label>
+                    <input 
+                        type="text" 
+                        id="streetAddress" 
+                        placeholder="Enter street address"
+                        class="text-slate-900 placeholder-slate-300"
+                        required
+                    >
+                </div>
+            </div>
+        </div>
+
+        <!-- Box 4: Upload -->
+        <div class="bg-white rounded-[2rem] border border-slate-100 p-6 shadow-sm">
+            <div class="space-y-4">
+                <!-- Upload Area -->
+                <div 
+                    id="uploadZone" 
+                    class="upload-zone rounded-[1.5rem] p-12 text-center flex flex-col items-center justify-center min-h-48"
+                >
+                    <svg class="w-16 h-16 text-slate-300 mb-4 pulse-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
+                        <path d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                    </svg>
+                    <p class="text-sm font-semibold text-slate-900 mb-1">Upload ID Card</p>
+                    <p class="text-xs text-slate-500">Drag and drop or tap to select</p>
+                    <input 
+                        type="file" 
+                        id="idFile" 
+                        accept="image/*"
+                        class="hidden"
+                        required
+                    >
+                </div>
+                
+                <!-- File name display -->
+                <p id="fileName" class="text-xs text-slate-500 text-center"></p>
+            </div>
+        </div>
+
+        <!-- Spacer for bottom button -->
+        <div class="h-4"></div>
+    </main>
+
+    <!-- Locked State (One-Time Submission) -->
+    <main id="lockedContainer" class="hidden mt-24 px-6 max-w-2xl mx-auto">
+        <div class="bg-white rounded-[2rem] border border-slate-100 p-8 shadow-sm text-center">
+            <div class="w-16 h-16 bg-orange-50 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg class="w-8 h-8 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                </svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 mb-2">Verification in Progress</h3>
+            <p class="text-sm text-slate-600 mb-6">You have already submitted your documents and cannot edit them at this time. Our team will review your information within 24 hours.</p>
+            <a href="profile.html" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-2xl font-semibold hover:bg-blue-700 transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                    <path d="M15 19l-7-7 7-7"></path>
+                </svg>
+                Back to Profile
+            </a>
+        </div>
+    </main>
+
+    <!-- Fixed Bottom Button -->
+    <div class="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-white/95 to-transparent p-6 z-30">
+        <div class="max-w-2xl mx-auto">
+            <button 
+                id="submitBtn"
+                class="w-full py-4 bg-blue-600 text-white rounded-2xl font-bold shadow-xl shadow-blue-200 active:scale-95 transition hover:bg-blue-700 opacity-50 cursor-not-allowed"
+                disabled
+            >
+                Submit for Encryption
+            </button>
+        </div>
+    </div>
+
+    <!-- Success State -->
+    <div id="successOverlay" class="hidden fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center p-6">
+        <div class="bg-white rounded-[2.5rem] p-8 max-w-xs text-center shadow-2xl">
+            <div id="lottieContainer" class="w-24 h-24 mx-auto mb-6 flex items-center justify-center">
+                <svg class="w-24 h-24 text-emerald-600" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41L9 16.17z"></path>
+                </svg>
+            </div>
+            <h3 class="text-xl font-bold text-slate-900 mb-2">Data Securely Transmitted</h3>
+            <p class="text-sm text-slate-500">Verification in progress. Our team will review your documents within 24 hours.</p>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAjx0r8OsJAEI8sdTopWadcGYcnD9jcme4",
+            authDomain: "ctc-capital.firebaseapp.com",
+            projectId: "ctc-capital",
+            storageBucket: "ctc-capital.firebasestorage.app",
+            messagingSenderId: "563837502113",
+            appId: "1:563837502113:web:d84ae0e9d07c997ebb26e0",
+            measurementId: "G-7L643VX04V"
+        };
+
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, doc, updateDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // Auth Guard + One-Time Submission Check
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.replace("../public/login.html");
+                return;
+            }
+
+            // Real-time listener to check KYC status
+            onSnapshot(doc(db, 'users', user.uid), (snap) => {
+                if (snap.exists()) {
+                    const data = snap.data();
+                    const formContainer = document.querySelector('main:first-of-type');
+                    const lockedContainer = document.getElementById('lockedContainer');
+
+                    if (data.kycStatus === 'pending' || data.kycStatus === 'verified') {
+                        // Hide form, show locked state
+                        if (formContainer) formContainer.style.display = 'none';
+                        if (lockedContainer) lockedContainer.classList.remove('hidden');
+                    } else {
+                        // Show form, hide locked state
+                        if (formContainer) formContainer.style.display = 'block';
+                        if (lockedContainer) lockedContainer.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // Upload Zone
+        const uploadZone = document.getElementById('uploadZone');
+        const fileInput = document.getElementById('idFile');
+        const fileNameDisplay = document.getElementById('fileName');
+        const fullNameInput = document.getElementById('fullName');
+        const dobInput = document.getElementById('dob');
+        const idTypeSelect = document.getElementById('idType');
+        const idNumberInput = document.getElementById('idNumber');
+        const phoneNumberInput = document.getElementById('phoneNumber');
+        const countryInput = document.getElementById('country');
+        const stateInput = document.getElementById('state');
+        const regionInput = document.getElementById('region');
+        const streetAddressInput = document.getElementById('streetAddress');
+        const submitBtn = document.getElementById('submitBtn');
+
+        // Function to check if form is complete
+        function validateFormComplete() {
+            const isFullNameFilled = fullNameInput.value.trim() !== '';
+            const isDobFilled = dobInput.value !== '';
+            const isIdTypeSelected = idTypeSelect.value !== '';
+            const isIdNumberFilled = idNumberInput.value.trim() !== '';
+            const isCountryFilled = countryInput.value.trim() !== '';
+            const isStateFilled = stateInput.value.trim() !== '';
+            const isRegionFilled = regionInput.value.trim() !== '';
+            const isStreetAddressFilled = streetAddressInput.value.trim() !== '';
+            const isFileSelected = fileInput.files.length > 0;
+
+            const isComplete = isFullNameFilled && isDobFilled && isIdTypeSelected && isIdNumberFilled && isCountryFilled && isStateFilled && isRegionFilled && isStreetAddressFilled && isFileSelected;
+            
+            // Enable/disable submit button
+            if (isComplete) {
+                submitBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                submitBtn.disabled = true;
+            }
+        }
+
+        // Listen for changes to enable/disable button
+        fullNameInput.addEventListener('input', validateFormComplete);
+        dobInput.addEventListener('change', validateFormComplete);
+        idTypeSelect.addEventListener('change', validateFormComplete);
+        idNumberInput.addEventListener('input', validateFormComplete);
+        phoneNumberInput.addEventListener('input', validateFormComplete);
+        countryInput.addEventListener('input', validateFormComplete);
+        stateInput.addEventListener('input', validateFormComplete);
+        regionInput.addEventListener('input', validateFormComplete);
+        streetAddressInput.addEventListener('input', validateFormComplete);
+        fileInput.addEventListener('change', validateFormComplete);
+
+        // Initial state: disable button
+        validateFormComplete();
+
+        uploadZone.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                fileNameDisplay.textContent = `✓ ${e.target.files[0].name}`;
+                validateFormComplete();
+            }
+        });
+
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('active');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('active');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('active');
+            if (e.dataTransfer.files.length > 0) {
+                fileInput.files = e.dataTransfer.files;
+                fileNameDisplay.textContent = `✓ ${e.dataTransfer.files[0].name}`;
+                validateFormComplete();
+            }
+        });
+
+        // Form Submission
+        const successOverlay = document.getElementById('successOverlay');
+
+        submitBtn.addEventListener('click', async () => {
+            // Validate file upload is required
+            if (fileInput.files.length === 0) {
+                alert('Please select an image first.');
+                return;
+            }
+
+            const fullName = fullNameInput.value.trim();
+            const dob = dobInput.value;
+            const idType = idTypeSelect.value;
+            const idNumber = idNumberInput.value.trim();
+            const phoneNumber = phoneNumberInput.value.trim();
+            const country = countryInput.value.trim();
+            const state = stateInput.value.trim();
+            const region = regionInput.value.trim();
+            const streetAddress = streetAddressInput.value.trim();
+
+            if (!fullName || !dob || !idType || !idNumber || !country || !state || !region || !streetAddress) {
+                alert('Please fill in all required fields');
+                return;
+            }
+
+            const user = auth.currentUser;
+            if (!user) {
+                alert('User not authenticated');
+                return;
+            }
+
+            // Set loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+            submitBtn.classList.add('opacity-75');
+
+            try {
+                // Step 1: Convert image to Base64 using FileReader
+                const file = fileInput.files[0];
+                const base64String = await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = () => resolve(reader.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+                console.log('Image converted to Base64 successfully');
+                
+                // Step 2: Update Firestore with KYC data and Base64 image
+                await updateDoc(doc(db, 'users', user.uid), {
+                    kycStatus: 'pending',
+                    email: user.email || '',
+                    idType: idType,
+                    idNumber: idNumber,
+                    fullName: fullName,
+                    dateOfBirth: dob,
+                    phoneNumber: phoneNumber,
+                    country: country,
+                    state: state,
+                    region: region,
+                    streetAddress: streetAddress,
+                    idImage: base64String,
+                    kycSubmittedAt: new Date().toISOString()
+                });
+
+                // Show success state
+                successOverlay.classList.remove('hidden');
+
+                // Redirect after 3 seconds
+                setTimeout(() => {
+                    window.location.replace('profile.html');
+                }, 3000);
+
+            } catch (error) {
+                console.error('FIREBASE ERROR:', error.code, error.message);
+                alert('Error: ' + error.message);
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit for Encryption';
+                submitBtn.classList.remove('opacity-75');
+            }
+        });
+    </script>
+</body>
+</html>

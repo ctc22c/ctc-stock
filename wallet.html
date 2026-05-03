@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deposit | CTC Capital Elite</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F4F7FE; }
+.royal-gradient { background: linear-gradient(135deg, #0056B3 0%, #002D5C 100%); }
+.step-card { display: none; transition: all 0.4s ease; }
+.step-card.active { display: block; animation: fadeIn 0.4s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+.currency-pill { @apply px-3 py-1 rounded-full text-[10px] font-bold border transition-all cursor-pointer; }
+</style>
+</head>
+<body class="pb-10">
+
+<nav class="p-6 flex items-center justify-between">
+<a href="../app/dashboard.html" class="p-3 bg-white rounded-2xl shadow-sm border border-slate-100 group">
+<svg class="w-5 h-5 text-slate-600 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+</a>
+<h1 class="font-extrabold text-slate-900 tracking-tight">Deposit Center</h1>
+<div class="w-10"></div> </nav>
+
+<main class="max-w-md mx-auto px-6">
+
+<div id="step1" class="step-card active space-y-6">
+<div class="bg-white p-8 rounded-[2.5rem] shadow-xl shadow-blue-900/5 border border-white">
+<div class="flex justify-between items-center mb-6">
+<label class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Amount to Fund</label>
+<div class="flex gap-2">
+<span id="labelNGN" onclick="setCurrency('NGN')" class="currency-pill border-blue-600 bg-blue-600 text-white">NGN</span>
+<span id="labelUSD" onclick="setCurrency('USD')" class="currency-pill border-slate-200 text-slate-400">USD</span>
+</div>
+</div>
+
+<div class="space-y-4">
+<div class="flex items-center gap-3">
+<span id="activeSign" class="text-3xl font-bold text-blue-600">₦</span>
+<input type="number" id="inputAmount" placeholder="0.00" class="w-full text-4xl font-extrabold bg-transparent outline-none text-slate-800 placeholder:text-slate-200">
+</div>
+<div class="pt-4 border-t border-slate-50 flex justify-between items-center">
+<span class="text-xs font-semibold text-slate-400">Estimated Credit:</span>
+<span class="text-sm font-bold text-emerald-500" id="conversionText">$0.00 USD</span>
+</div>
+</div>
+</div>
+
+<div class="grid grid-cols-2 gap-4">
+<button onclick="selectMethod('bank')" id="methodBank" class="p-6 bg-white border-2 border-blue-600 rounded-[2.2rem] flex flex-col items-center gap-3 shadow-sm transition-all">
+<div class="h-12 w-12 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" stroke-width="2"/></svg></div>
+<span class="text-xs font-bold text-slate-700 uppercase tracking-tight">Local Bank</span>
+</button>
+<button onclick="selectMethod('crypto')" id="methodCrypto" class="p-6 bg-white border-2 border-slate-100 rounded-[2.2rem] flex flex-col items-center gap-3 shadow-sm transition-all">
+<div class="h-12 w-12 bg-amber-100 text-amber-600 rounded-2xl flex items-center justify-center"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke-width="2"/></svg></div>
+<span class="text-xs font-bold text-slate-700 uppercase tracking-tight">Crypto BTC</span>
+</button>
+</div>
+
+<button onclick="showStep(2)" class="w-full royal-gradient text-white p-6 rounded-[2rem] font-bold shadow-2xl shadow-blue-500/30 active:scale-95 transition-all text-lg">Continue to Payment</button>
+</div>
+
+<div id="step2" class="step-card space-y-6">
+<div class="bg-white p-8 rounded-[2.5rem] shadow-xl border border-white space-y-6 relative overflow-hidden">
+<div class="inline-flex items-center gap-2 bg-amber-50 text-amber-600 px-4 py-1.5 rounded-full">
+<span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-amber-500"></span></span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Awaiting Transfer</span>
+</div>
+
+<div id="bankView" class="hidden space-y-5">
+<h3 class="font-bold text-slate-800 text-lg">Official Bank Details</h3>
+<div class="p-5 bg-slate-50 rounded-[1.8rem] border border-slate-100 space-y-4">
+<div class="flex justify-between group cursor-pointer" onclick="copyText('adminAccount')">
+<div><p class="text-[10px] text-slate-400 font-bold uppercase">Account Number</p><p class="font-bold text-xl text-slate-900 tracking-wider" id="adminAccount">0812344556</p></div>
+<div class="p-2 self-center bg-white rounded-xl shadow-sm"><svg class="w-4 h-4 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2" stroke-width="2"/></svg></div>
+</div>
+<div><p class="text-[10px] text-slate-400 font-bold uppercase">Bank Name</p><p class="font-bold text-slate-700" id="adminBankName">Kuda Microfinance</p></div>
+<div><p class="text-[10px] text-slate-400 font-bold uppercase">Beneficiary</p><p class="font-bold text-slate-700">CTC CAPITAL LTD</p></div>
+</div>
+</div>
+
+<div id="cryptoView" class="hidden space-y-5 text-center">
+<h3 class="font-bold text-slate-800 text-left text-lg">BTC Wallet Address</h3>
+<div class="bg-slate-900 p-6 rounded-[2rem] text-white">
+<div class="bg-white p-2 inline-block rounded-2xl mb-4"><img src="https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=BITCOIN_ADDRESS" class="rounded-lg"></div>
+<p class="text-[10px] text-slate-500 uppercase mb-2">Network: Bitcoin (BTC)</p>
+<p class="text-xs font-mono break-all text-amber-400 mb-4 px-2" id="adminBtc">bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh</p>
+<button onclick="copyText('adminBtc')" class="bg-white/10 hover:bg-white/20 px-6 py-2 rounded-xl text-[10px] font-bold uppercase transition-all">Copy Address</button>
+</div>
+</div>
+
+<!-- Payment Confirmation Trigger -->
+<div id="paymentTrigger" class="text-center mb-6">
+<button onclick="revealUpload()" class="royal-gradient text-white px-8 py-4 rounded-[2rem] font-bold shadow-xl active:scale-95 transition-all text-lg">I have made payment</button>
+</div>
+
+<!-- Hidden Upload Section -->
+<div id="uploadSection" class="hidden space-y-6">
+<div class="space-y-3">
+<label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">Transaction ID (Optional)</label>
+<input type="text" id="transactionId" placeholder="Enter transaction ID" class="w-full p-4 bg-white border border-slate-200 rounded-[2rem] text-slate-900 placeholder-slate-400 outline-none focus:border-blue-500 transition-all">
+</div>
+
+<div class="space-y-3">
+<label class="block text-[10px] font-bold text-slate-400 uppercase tracking-widest">Submit Payment Receipt</label>
+<label id="uploadArea" class="relative flex flex-col items-center justify-center w-full h-40 border-2 border-dashed border-slate-200 rounded-[2rem] cursor-pointer bg-slate-50 hover:bg-slate-100 transition-all overflow-hidden">
+<div class="flex flex-col items-center justify-center space-y-2" id="uploadPlaceholder">
+<div class="h-12 w-12 bg-white rounded-full flex items-center justify-center shadow-sm text-blue-600"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" stroke-width="2.5" stroke-linecap="round"/></svg></div>
+<p class="text-[10px] font-bold text-slate-500 uppercase">Click to Select Image</p>
+</div>
+<img id="imagePreview" class="hidden absolute inset-0 w-full h-full object-cover">
+<input type="file" class="hidden" id="proofFile" onchange="previewImage(this)" accept="image/*" />
+</label>
+</div>
+
+<div class="bg-red-50 border border-red-200 rounded-[1.5rem] p-4 mb-4">
+    <div class="flex items-start gap-3">
+        <span class="text-red-500 text-lg">⚠️</span>
+        <div>
+            <p class="text-red-700 font-bold text-sm mb-1">WARNING</p>
+            <p class="text-red-600 text-xs">Do not click "Confirm" if you have not made the transfer. Multiple false reports will lead to permanent account suspension.</p>
+        </div>
+    </div>
+</div>
+
+<button id="confirmDepositBtn" onclick="handleSubmit()" class="w-full royal-gradient text-white p-6 rounded-[2rem] font-bold text-lg shadow-xl active:scale-95 transition-all">Confirm Deposit</button>
+</div>
+
+<!-- Success Message -->
+<div id="successMessage" class="hidden text-center space-y-4 p-6 bg-green-50 border border-green-200 rounded-[2rem] mx-4">
+<div class="bg-white rounded-[1.8rem] p-6 border border-slate-200 shadow-sm text-left space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-xl font-bold text-slate-800">Deposit Receipt</span>
+<span class="text-xs uppercase tracking-[0.3em] text-slate-400">Pending</span>
+</div>
+<div class="grid gap-3">
+<div class="space-y-1"><p class="text-[10px] uppercase tracking-widest text-slate-400">Amount</p><p class="text-slate-900 font-bold text-lg" id="receiptAmount"></p></div>
+<div class="space-y-1"><p class="text-[10px] uppercase tracking-widest text-slate-400">Method</p><p class="text-slate-900 font-bold" id="receiptMethod"></p></div>
+<div class="space-y-1"><p class="text-[10px] uppercase tracking-widest text-slate-400">Transaction ID</p><p class="text-slate-900 font-bold" id="receiptTransactionId"></p></div>
+</div>
+</div>
+<p class="text-green-700 text-sm">Your deposit request is now queued for verification. We will notify you once approval is complete.</p>
+<button onclick="resetForm()" class="mt-4 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-xl font-bold transition-all">Make Another Deposit</button>
+</div>
+
+<button id="backButton" onclick="showStep(1)" class="w-full text-slate-400 font-bold text-xs uppercase tracking-widest">Back to Amount</button>
+</div>
+
+</main>
+
+<script type="module">
+// URL Auto-Selection
+window.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const method = urlParams.get('method');
+    if (method === 'bank') {
+        selectMethod('bank');
+        showStep(2);
+    } else if (method === 'crypto') {
+        selectMethod('crypto');
+        showStep(2);
+    }
+});
+
+// Firebase imports
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// Firebase config
+const firebaseConfig = {
+    apiKey: "AIzaSyAjx0r8OsJAEI8sdTopWadcGYcnD9jcme4",
+    authDomain: "ctc-capital.firebaseapp.com",
+    projectId: "ctc-capital",
+    storageBucket: "ctc-capital.firebasestorage.app",
+    messagingSenderId: "563837502113",
+    appId: "1:563837502113:web:d84ae0e9d07c997ebb26e0",
+    measurementId: "G-7L643VX04V"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+
+// Auth Guard
+onAuthStateChanged(auth, (user) => {
+    if (!user) {
+        window.location.href = "../public/index.html";
+    }
+});
+
+// --- FULL STACK LOGIC ---
+// 1. Fetching Admin Details from Firestore (Placeholder for your app.js)
+/*
+import { db } from '../assets/js/firebaseConfig.js';
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+async function loadAdminSettings() {
+const docRef = doc(db, "settings", "payment_details");
+const docSnap = await getDoc(docRef);
+if (docSnap.exists()) {
+document.getElementById('adminAccount').innerText = docSnap.data().accountNumber;
+document.getElementById('adminBtc').innerText = docSnap.data().btcAddress;
+}
+}
+*/
+
+const NGN_RATE = 1550; // NGN to USD rate
+const BTC_RATE = 65000; // BTC to USD rate
+let currentCurrency = 'NGN';
+let currentMethod = 'bank';
+
+window.setCurrency = (type) => {
+currentCurrency = type;
+if (currentMethod === 'crypto') {
+    document.getElementById('activeSign').innerText = '₿';
+} else {
+    document.getElementById('activeSign').innerText = type === 'NGN' ? '₦' : '$';
+}
+document.getElementById('labelNGN').className = `currency-pill ${type === 'NGN' ? 'border-blue-600 bg-blue-600 text-white' : 'border-slate-200 text-slate-400'}`;
+document.getElementById('labelUSD').className = `currency-pill ${type === 'USD' ? 'border-blue-600 bg-blue-600 text-white' : 'border-slate-200 text-slate-400'}`;
+calculateConversion();
+}
+
+const calculateConversion = () => {
+const val = parseFloat(document.getElementById('inputAmount').value) || 0;
+const display = document.getElementById('conversionText');
+if (currentMethod === 'bank') {
+    const usd = val / NGN_RATE;
+    display.innerText = `$${usd.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} USD`;
+} else if (currentMethod === 'crypto') {
+    const usd = val * BTC_RATE;
+    display.innerText = `$${usd.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})} USD`;
+}
+}
+
+document.getElementById('inputAmount').addEventListener('input', calculateConversion);
+
+window.selectMethod = (method) => {
+currentMethod = method;
+document.getElementById('methodBank').className = `p-6 bg-white border-2 rounded-[2.2rem] flex flex-col items-center gap-3 shadow-sm transition-all ${method === 'bank' ? 'border-blue-600' : 'border-slate-100'}`;
+document.getElementById('methodCrypto').className = `p-6 bg-white border-2 rounded-[2.2rem] flex flex-col items-center gap-3 shadow-sm transition-all ${method === 'crypto' ? 'border-blue-600' : 'border-slate-100'}`;
+// Update activeSign based on method
+if (method === 'crypto') {
+    document.getElementById('activeSign').innerText = '₿';
+} else {
+    document.getElementById('activeSign').innerText = currentCurrency === 'NGN' ? '₦' : '$';
+}
+calculateConversion();
+}
+
+window.showStep = (n) => {
+if(n === 2 && !document.getElementById('inputAmount').value) return;
+document.querySelectorAll('.step-card').forEach(s => s.classList.remove('active'));
+document.getElementById(`step${n}`).classList.add('active');
+
+if(n === 2) {
+document.getElementById('bankView').classList.toggle('hidden', currentMethod !== 'bank');
+document.getElementById('cryptoView').classList.toggle('hidden', currentMethod !== 'crypto');
+}
+}
+
+window.previewImage = (input) => {
+const file = input.files[0];
+if (file) {
+const reader = new FileReader();
+reader.onload = (e) => {
+document.getElementById('imagePreview').src = e.target.result;
+document.getElementById('imagePreview').classList.remove('hidden');
+document.getElementById('uploadPlaceholder').classList.add('hidden');
+}
+reader.readAsDataURL(file);
+}
+}
+
+window.copyText = (id) => {
+const text = document.getElementById(id).innerText;
+navigator.clipboard.writeText(text);
+console.log("Copied: " + text);
+}
+
+window.revealUpload = () => {
+document.getElementById('uploadSection').classList.remove('hidden');
+document.querySelector('button[onclick="revealUpload()"]').classList.add('hidden');
+}
+
+window.resetForm = () => {
+    const submitButton = document.getElementById('confirmDepositBtn');
+    document.getElementById('successMessage').classList.add('hidden');
+    document.getElementById('uploadSection').classList.add('hidden');
+    document.getElementById('paymentTrigger').classList.remove('hidden');
+    document.getElementById('bankView').classList.remove('hidden');
+    document.getElementById('cryptoView').classList.remove('hidden');
+    document.getElementById('backButton').classList.remove('hidden');
+    document.querySelector('button[onclick="revealUpload()"]').classList.remove('hidden');
+    if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.innerText = 'Confirm Deposit';
+    }
+    document.getElementById('proofFile').value = '';
+    document.getElementById('transactionId').value = '';
+    document.getElementById('imagePreview').classList.add('hidden');
+    document.getElementById('uploadPlaceholder').classList.remove('hidden');
+    showStep(1);
+}
+
+window.handleSubmit = async () => {
+    const submitButton = document.getElementById('confirmDepositBtn');
+    const file = document.getElementById('proofFile').files[0];
+    const amount = document.getElementById('inputAmount').value;
+    const transactionId = document.getElementById('transactionId').value;
+    const user = auth.currentUser;
+
+    if (!user) {
+        console.warn("Please log in first!");
+        return;
+    }
+
+    if (!file) {
+        console.warn("Please upload payment proof!");
+        return;
+    }
+
+    if (!amount) {
+        console.warn("Please enter an amount!");
+        return;
+    }
+
+    // Prevent duplicate submits while processing
+    submitButton.disabled = true;
+    submitButton.innerText = 'Processing...';
+
+    // Fraud Warning popup
+    const confirmed = confirm('⚠️ STOP! Have you actually sent the funds? Providing false receipts will result in an immediate account ban.');
+    if (!confirmed) {
+        submitButton.disabled = false;
+        submitButton.innerText = 'Confirm Deposit';
+        return;
+    }
+
+    try {
+        // Convert image to Base64 using FileReader
+        const base64String = await new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = reject;
+            reader.readAsDataURL(file);
+        });
+        console.log('Proof of payment converted to Base64 successfully');
+
+        const amountValue = parseFloat(amount);
+        const calculatedUsdAmount = currentMethod === 'bank'
+            ? amountValue / NGN_RATE
+            : amountValue * BTC_RATE;
+        const userName = user.displayName || user.email || 'Unknown User';
+
+        // Determine targetWallet
+        const targetWallet = currentMethod === 'bank' ? 'usd' : 'btc';
+
+        // Create deposit document in Firestore
+        await addDoc(collection(db, "deposits"), {
+            uid: user.uid,
+            userEmail: user.email || null,
+            userName,
+            amount: amountValue,
+            calculatedUsdAmount,
+            currency: currentCurrency,
+            method: currentMethod,
+            targetWallet: targetWallet,
+            proofOfPayment: base64String,
+            transactionId: transactionId || null,
+            status: "pending",
+            timestamp: new Date()
+        });
+
+        document.getElementById('paymentTrigger').classList.add('hidden');
+        document.getElementById('bankView').classList.add('hidden');
+        document.getElementById('cryptoView').classList.add('hidden');
+        document.getElementById('uploadSection').classList.add('hidden');
+        document.getElementById('backButton').classList.add('hidden');
+
+        document.getElementById('receiptAmount').innerText = `${currentCurrency === 'NGN' ? '₦' : '$'}${amountValue.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+        document.getElementById('receiptMethod').innerText = `${currentMethod === 'bank' ? 'Bank Transfer' : 'Bitcoin'}`;
+        document.getElementById('receiptTransactionId').innerText = transactionId ? transactionId : 'Not provided';
+
+        document.getElementById('successMessage').classList.remove('hidden');
+    } catch (error) {
+        console.error("Error submitting deposit:", error);
+        submitButton.disabled = false;
+        submitButton.innerText = 'Confirm Deposit';
+    }
+}
+</script>
+</body>
+</html>

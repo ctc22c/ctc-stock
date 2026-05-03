@@ -1,0 +1,155 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup | CTC Capital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @media (min-width: 1024px) {
+        .bg-grid {
+          background-image: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.16), transparent 24%),
+            radial-gradient(circle at 85% 15%, rgba(59, 130, 246, 0.16), transparent 20%),
+            radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.08), transparent 26%);
+        }
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-slate-100 text-slate-900">
+    <main class="min-h-screen lg:grid lg:grid-cols-[1.05fr_0.95fr]">
+      <section class="relative overflow-hidden bg-sky-700 px-8 py-14 text-white sm:px-12 lg:px-16 bg-grid">
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_rgba(255,255,255,0.18),transparent_22%),radial-gradient(circle_at_bottom_right,_rgba(56,189,248,0.18),transparent_20%)]"></div>
+        <div class="relative z-10 flex h-full flex-col justify-center gap-10">
+          <div class="max-w-xl">
+            <span class="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs uppercase tracking-[0.35em] text-sky-100/90 shadow-sm">
+              CTC Capital
+            </span>
+            <h1 class="mt-8 text-4xl font-semibold tracking-tight sm:text-5xl">Premium fintech onboarding for modern investors.</h1>
+            <p class="mt-6 max-w-lg text-base leading-8 text-sky-100/85">Open your account with a sleek, secure signup flow built for fast access to markets, analytics, and portfolio power.</p>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="rounded-[2rem] border border-white/10 bg-white/10 p-6 shadow-[0_35px_60px_-45px_rgba(15,23,42,0.7)] backdrop-blur-xl">
+              <p class="font-semibold">Bank-grade security</p>
+              <p class="mt-2 text-sm text-sky-100/80">Industry-standard encryption and safe account storage for every investor.</p>
+            </div>
+            <div class="rounded-[2rem] border border-white/10 bg-white/10 p-6 shadow-[0_35px_60px_-45px_rgba(15,23,42,0.7)] backdrop-blur-xl">
+              <p class="font-semibold">Smooth onboarding</p>
+              <p class="mt-2 text-sm text-sky-100/80">A modern signup experience that feels polished on desktop and mobile.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="flex items-center justify-center bg-slate-50 px-6 py-12 sm:px-10 lg:px-14">
+        <div class="w-full max-w-xl">
+          <div class="mb-8 rounded-[2rem] border border-slate-200 bg-white px-6 py-7 shadow-xl shadow-slate-200/80">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p class="text-xs font-semibold uppercase tracking-[0.35em] text-sky-600">CTC Capital</p>
+                <h2 class="mt-4 text-3xl font-semibold text-slate-900">Create your premium account</h2>
+                <p class="mt-2 text-sm text-slate-600">Enter your details to get started with your investment journey.</p>
+              </div>
+              <div class="hidden rounded-2xl bg-sky-50 px-4 py-3 text-xs font-medium text-sky-700 sm:block">
+                Trusted by active investors
+              </div>
+            </div>
+            <div class="mt-6 rounded-3xl bg-slate-50 p-4 text-sm text-slate-600 ring-1 ring-slate-200">
+              <p><span class="font-semibold text-slate-900">Tip:</span> Strong passwords keep your account and funds safe.</p>
+            </div>
+          </div>
+
+          <form id="signupForm" class="space-y-6 rounded-[2rem] border border-slate-200 bg-white p-8 shadow-[0_30px_60px_-30px_rgba(15,23,42,0.15)]" novalidate>
+            <div id="alertBox" class="hidden rounded-3xl border px-4 py-4 text-sm font-medium shadow-sm" role="alert"></div>
+            <div class="grid gap-5">
+              <div class="field-group">
+                <label for="fullName" class="block text-sm font-semibold text-slate-700">Full Name</label>
+                <div class="relative mt-3">
+                  <span class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A9 9 0 0112 15a9 9 0 016.879 2.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </span>
+                  <input id="fullName" name="fullName" type="text" autocomplete="name" placeholder="John Doe" class="w-full rounded-3xl border border-slate-200 bg-slate-50 px-12 py-3 text-sm text-slate-900 outline-none transition duration-200 focus:border-sky-500 focus:ring-4 focus:ring-sky-100" />
+                </div>
+                <p id="fullNameError" class="mt-2 text-sm text-red-600 hidden"></p>
+              </div>
+
+              <div class="field-group">
+                <label for="email" class="block text-sm font-semibold text-slate-700">Email</label>
+                <div class="relative mt-3">
+                  <span class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12H8m8-2H8m12-2H4a2 2 0 00-2 2v8a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2z" />
+                    </svg>
+                  </span>
+                  <input id="email" name="email" type="email" autocomplete="email" placeholder="you@ctccapital.com" class="w-full rounded-3xl border border-slate-200 bg-slate-50 px-12 py-3 text-sm text-slate-900 outline-none transition duration-200 focus:border-sky-500 focus:ring-4 focus:ring-sky-100" />
+                </div>
+                <p id="emailError" class="mt-2 text-sm text-red-600 hidden"></p>
+              </div>
+
+              <div class="field-group">
+                <label for="phone" class="block text-sm font-semibold text-slate-700">Phone Number</label>
+                <div class="relative mt-3">
+                  <span class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h2l2 5 4-1 3 6 2-2 3 5h2" />
+                    </svg>
+                  </span>
+                  <input id="phone" name="phone" type="tel" autocomplete="tel" placeholder="+1 234 567 8901" class="w-full rounded-3xl border border-slate-200 bg-slate-50 px-12 py-3 text-sm text-slate-900 outline-none transition duration-200 focus:border-sky-500 focus:ring-4 focus:ring-sky-100" />
+                </div>
+                <p id="phoneError" class="mt-2 text-sm text-red-600 hidden"></p>
+              </div>
+
+              <div class="field-group">
+                <label for="password" class="block text-sm font-semibold text-slate-700">Password</label>
+                <div class="relative mt-3">
+                  <span class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c-1.657 0-3 1.343-3 3v2h6v-2c0-1.657-1.343-3-3-3z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg>
+                  </span>
+                  <input id="password" name="password" type="password" autocomplete="new-password" placeholder="Create a password" class="w-full rounded-3xl border border-slate-200 bg-slate-50 px-12 py-3 pr-14 text-sm text-slate-900 outline-none transition duration-200 focus:border-sky-500 focus:ring-4 focus:ring-sky-100" />
+                  <button type="button" data-target="#password" aria-label="Show password" class="absolute inset-y-0 right-3 inline-flex items-center rounded-full bg-slate-100 px-3 text-slate-500 transition hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </button>
+                </div>
+                <p id="passwordError" class="mt-2 text-sm text-red-600 hidden"></p>
+              </div>
+
+              <div class="field-group">
+                <label for="confirmPassword" class="block text-sm font-semibold text-slate-700">Confirm Password</label>
+                <div class="relative mt-3">
+                  <span class="pointer-events-none absolute inset-y-0 left-4 flex items-center text-slate-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 11c-1.657 0-3 1.343-3 3v2h6v-2c0-1.657-1.343-3-3-3z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 11V7a5 5 0 0110 0v4" />
+                    </svg>
+                  </span>
+                  <input id="confirmPassword" name="confirmPassword" type="password" autocomplete="new-password" placeholder="Confirm password" class="w-full rounded-3xl border border-slate-200 bg-slate-50 px-12 py-3 pr-14 text-sm text-slate-900 outline-none transition duration-200 focus:border-sky-500 focus:ring-4 focus:ring-sky-100" />
+                  <button type="button" data-target="#confirmPassword" aria-label="Show password" class="absolute inset-y-0 right-3 inline-flex items-center rounded-full bg-slate-100 px-3 text-slate-500 transition hover:bg-slate-200 focus:outline-none focus:ring-2 focus:ring-sky-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" class="h-5 w-5">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                  </button>
+                </div>
+                <p id="confirmPasswordError" class="mt-2 text-sm text-red-600 hidden"></p>
+              </div>
+            </div>
+
+            <button id="submitButton" type="submit" class="group relative flex w-full items-center justify-center rounded-3xl bg-sky-600 px-5 py-3 text-sm font-semibold text-white shadow-xl shadow-sky-500/25 transition duration-200 hover:bg-sky-700 focus:outline-none focus:ring-4 focus:ring-sky-200 disabled:cursor-not-allowed disabled:bg-slate-400">
+              <span class="transition duration-200">Create account</span>
+            </button>
+
+            <p class="text-center text-sm text-slate-500">Already have an account? <a href="login.html" class="font-semibold text-sky-600 transition hover:text-sky-800">Log in</a></p>
+          </form>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="signup.js"></script>
+  </body>
+</html>

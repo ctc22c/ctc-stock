@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Support | CTC Capital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F8FAFC; color: #0F172A; }
+        .glass { background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(18px); border: 1px solid rgba(148, 163, 184, 0.32); box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08); }
+        .btn-primary { background: linear-gradient(135deg, #0d6efd, #2563eb); }
+        .btn-primary:hover { background: linear-gradient(135deg, #1d4ed8, #3b82f6); }
+        .btn-secondary { background: #fff; border: 1px solid #cbd5e1; color: #334155; }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen px-6 py-8 lg:px-10">
+        <header class="max-w-6xl mx-auto mb-10">
+            <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <div>
+                    <p class="text-sm uppercase tracking-[0.4em] text-slate-500">CTC Capital Support</p>
+                    <h1 class="mt-3 text-4xl font-extrabold text-slate-900">Help Center</h1>
+                    <p class="max-w-2xl text-slate-600 mt-4">Submit complaints, open support requests, or contact our team directly on WhatsApp for fast response.</p>
+                </div>
+                <a href="../app/dashboard.html" class="inline-flex items-center gap-2 rounded-3xl border border-slate-200 bg-white px-5 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-50 transition shadow-sm">
+                    <span>Back to Dashboard</span>
+                </a>
+            </div>
+        </header>
+
+        <main class="max-w-6xl mx-auto grid gap-8 lg:grid-cols-[1.1fr_0.9fr]">
+            <section class="glass rounded-[2rem] p-8 shadow-2xl shadow-slate-200/40">
+                <div class="space-y-6">
+                    <div>
+                        <p class="text-sm uppercase tracking-[0.3em] text-sky-300">Need assistance?</p>
+                        <h2 class="mt-4 text-3xl font-bold text-slate-900">File a Complaint or Request Support</h2>
+                        <p class="mt-3 text-slate-600">Our support team is available 24/7 to help you with deposits, withdrawals, account issues, and security concerns.</p>
+                    </div>
+
+                    <div class="grid gap-4 sm:grid-cols-2">
+                        <div class="rounded-[1.75rem] border border-slate-200 bg-white p-6">
+                            <h3 class="text-xl font-semibold text-slate-900">Live WhatsApp Support</h3>
+                            <p class="mt-3 text-slate-600">Send your complaint directly to our support WhatsApp line and get a fast response.</p>
+                            <button id="whatsappButton" class="mt-6 inline-flex items-center justify-center gap-2 rounded-3xl px-5 py-3 text-sm font-semibold text-white btn-primary shadow-lg shadow-sky-500/20">
+                                <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16.96 3.02c-3.9 0-7.06 3.17-7.06 7.08 0 1.25.33 2.45.95 3.51L3 21l7.55-2.48c1.05.57 2.24.87 3.45.87 3.9 0 7.06-3.17 7.06-7.08s-3.16-7.08-7.06-7.08zm-1.78 12.86c-.84.2-1.72.01-2.45-.56l-.18-.14-2.82.93.95-2.74-.15-.18a4.977 4.977 0 01-.56-2.45c0-2.8 2.26-5.08 5.04-5.08 2.78 0 5.04 2.27 5.04 5.08 0 2.8-2.26 5.08-5.04 5.08z"/></svg>
+                                Contact on WhatsApp
+                            </button>
+                        </div>
+
+                        <div class="rounded-[1.75rem] border border-slate-200 bg-white p-6">
+                            <h3 class="text-xl font-semibold text-slate-900">Create a Support Ticket</h3>
+                            <p class="mt-3 text-slate-600">Submit your issue and our team will follow up directly through your account and email.</p>
+                            <div class="mt-6 space-y-3">
+                                <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                                    <p class="text-sm text-slate-500">Ticket type</p>
+                                    <p class="font-semibold text-slate-900">General Support</p>
+                                </div>
+                                <div class="rounded-2xl border border-slate-200 bg-white p-4">
+                                    <p class="text-sm text-slate-500">Response time</p>
+                                    <p class="font-semibold text-slate-900">Within 2 hours</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form id="supportForm" class="space-y-6">
+                        <div class="grid gap-4 lg:grid-cols-2">
+                            <div>
+                                <label class="text-sm font-semibold text-slate-700" for="issueSubject">Subject</label>
+                                <input id="issueSubject" type="text" placeholder="Describe your issue" class="mt-2 w-full rounded-3xl border border-slate-200 bg-white px-4 py-4 text-slate-900 outline-none focus:border-sky-400 focus:ring-sky-400/20" required />
+                            </div>
+                            <div>
+                                <label class="text-sm font-semibold text-slate-700" for="issueCategory">Category</label>
+                                <select id="issueCategory" class="mt-2 w-full rounded-3xl border border-slate-200 bg-white px-4 py-4 text-slate-900 outline-none focus:border-sky-400 focus:ring-sky-400/20">
+                                    <option value="deposit">Deposit issue</option>
+                                    <option value="withdrawal">Withdrawal issue</option>
+                                    <option value="account">Account access</option>
+                                    <option value="security">Security</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="text-sm font-semibold text-slate-700" for="issueMessage">Details</label>
+                            <textarea id="issueMessage" rows="6" placeholder="Tell us what happened..." class="mt-2 w-full rounded-3xl border border-slate-200 bg-white px-4 py-4 text-slate-900 outline-none focus:border-sky-400 focus:ring-sky-400/20 resize-none" required></textarea>
+                        </div>
+                        <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                            <p class="text-sm text-slate-600">You will receive confirmation in your account notifications once the ticket is processed.</p>
+                            <button type="submit" class="rounded-3xl btn-primary px-6 py-4 text-sm font-semibold text-white">Submit Ticket</button>
+                        </div>
+                        <p id="supportAlert" class="text-sm text-emerald-300 hidden"></p>
+                    </form>
+                </div>
+            </section>
+
+            <aside class="space-y-6">
+                <div class="glass rounded-[2rem] p-8 shadow-2xl shadow-slate-200/30">
+                    <p class="text-sm uppercase tracking-[0.3em] text-sky-500">Support channels</p>
+                    <h3 class="mt-4 text-2xl font-semibold text-slate-900">Contact Options</h3>
+                    <div class="mt-6 space-y-4">
+                        <div class="rounded-3xl border border-slate-200 bg-white p-5">
+                            <p class="text-sm text-slate-500">Live WhatsApp</p>
+                            <p class="mt-2 text-slate-900 font-semibold">+123 456 7890</p>
+                        </div>
+                        <div class="rounded-3xl border border-slate-200 bg-white p-5">
+                            <p class="text-sm text-slate-500">Support email</p>
+                            <p class="mt-2 text-slate-900 font-semibold">support@ctccapital.com</p>
+                        </div>
+                        <div class="rounded-3xl border border-slate-200 bg-white p-5">
+                            <p class="text-sm text-slate-500">Instant response</p>
+                            <p class="mt-2 text-slate-900 font-semibold">Within 2 hours</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="glass rounded-[2rem] p-8 shadow-2xl shadow-slate-200/30">
+                    <p class="text-sm uppercase tracking-[0.3em] text-sky-500">Quick tips</p>
+                    <h3 class="mt-4 text-2xl font-semibold text-slate-900">Faster resolution</h3>
+                    <ul class="mt-6 space-y-3 text-slate-600 list-disc list-inside">
+                        <li>Include your full name and email address.</li>
+                        <li>Share transaction IDs for payment issues.</li>
+                        <li>Attach screenshots in your email if needed.</li>
+                        <li>Use WhatsApp for urgent support.</li>
+                    </ul>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAjx0r8OsJAEI8sdTopWadcGYcnD9jcme4",
+            authDomain: "ctc-capital.firebaseapp.com",
+            projectId: "ctc-capital",
+            storageBucket: "ctc-capital.firebasestorage.app",
+            messagingSenderId: "563837502113",
+            appId: "1:563837502113:web:d84ae0e9d07c997ebb26e0",
+            measurementId: "G-7L643VX04V"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const supportForm = document.getElementById('supportForm');
+        const supportAlert = document.getElementById('supportAlert');
+        const whatsappButton = document.getElementById('whatsappButton');
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = '../public/login.html';
+            }
+        });
+
+        whatsappButton.addEventListener('click', () => {
+            const whatsappNumber = '1234567890';
+            const text = encodeURIComponent('Hello CTC Support, I need help with my account.');
+            window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
+        });
+
+        supportForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const subject = document.getElementById('issueSubject').value.trim();
+            const category = document.getElementById('issueCategory').value;
+            const message = document.getElementById('issueMessage').value.trim();
+
+            if (!subject || !message) {
+                supportAlert.textContent = 'Please fill in the issue details before submitting.';
+                supportAlert.classList.remove('hidden');
+                return;
+            }
+
+            const user = auth.currentUser;
+            if (!user) return;
+
+            try {
+                const ticketData = {
+                    uid: user.uid,
+                    subject,
+                    category,
+                    message,
+                    status: 'open',
+                    createdAt: new Date(),
+                    updatedAt: new Date()
+                };
+                const ticketRef = await addDoc(collection(db, 'supportTickets'), ticketData);
+                await updateDoc(doc(db, 'users', user.uid), {
+                    lastSupportTicket: ticketRef.id,
+                    supportNotification: `Your support request "${subject}" was submitted successfully.`
+                });
+
+                supportAlert.textContent = 'Your support ticket was submitted. We will contact you soon.';
+                supportAlert.classList.remove('hidden');
+                supportForm.reset();
+            } catch (error) {
+                console.error('Support ticket error:', error);
+                supportAlert.textContent = 'Unable to submit ticket. Please try again later.';
+                supportAlert.classList.remove('hidden');
+            }
+        });
+    </script>
+</body>
+</html>

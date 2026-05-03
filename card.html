@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>My Card | CTC Capital Elite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: linear-gradient(135deg, #F8FAFC 0%, #EFF6FF 100%); min-height: 100vh; }
+        
+        .card-3d {
+            perspective: 1000px;
+            transition: transform 0.6s;
+        }
+        
+        .card-3d:hover {
+            transform: rotateY(5deg) rotateX(-5deg);
+        }
+        
+        .card-inner {
+            background: linear-gradient(135deg, #2563eb 0%, #0056B3 50%, #003D80 100%);
+            border-radius: 1.5rem;
+            box-shadow: 0 25px 50px -12px rgba(37, 99, 235, 0.3), inset 0 1px 0 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-inner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
+            animation: shine 3s infinite;
+        }
+        
+        @keyframes shine {
+            0% { transform: translate(-100%, -100%); }
+            100% { transform: translate(100%, 100%); }
+        }
+        
+        .card-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem;
+            height: 100%;
+        }
+        
+        .hologram-text {
+            background: linear-gradient(135deg, #ffffff 0%, #a0aec0 50%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+        }
+        
+        .chip {
+            width: 3.5rem;
+            height: 3rem;
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: inset 0 -2px 5px rgba(0, 0, 0, 0.2), 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo-animation {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .stats-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .loading-skeleton {
+            background: linear-gradient(90deg, #f0f4f8 0%, #f8fcff 50%, #f0f4f8 100%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        
+        @keyframes loading {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        
+        .flip-card-animation {
+            animation: flipXAxis 0.6s ease-out;
+        }
+        
+        @keyframes flipXAxis {
+            0% { transform: rotateX(0deg); }
+            50% { transform: rotateX(90deg); }
+            100% { transform: rotateX(0deg); }
+        }
+    </style>
+</head>
+<body class="pb-24 lg:pb-0 lg:pl-64">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <!-- Header -->\n        <header class="mb-8 sm:mb-12">\n            <div class="flex items-center justify-between mb-4">\n                <div>\n                    <p class="text-sm uppercase tracking-[0.35em] text-slate-500">My Financial Card</p>\n                    <h1 class="mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900">Your CTC Card</h1>\n                </div>\n                <div class="w-12 h-12 sm:w-14 sm:h-14 bg-blue-100 rounded-full flex items-center justify-center logo-animation">\n                    <i data-lucide="credit-card" class="w-6 sm:w-7 h-6 sm:h-7 text-blue-600\"></i>\n                </div>\n            </div>\n            <p class="text-slate-600 max-w-2xl\">Your premium financial card with exclusive benefits and rewards</p>\n        </header>\n\n        <!-- Card Display -->\n        <div class=\"card-3d mb-8 sm:mb-12 rounded-3xl overflow-hidden\">\n            <div class=\"card-inner\">\n                <div class=\"card-content flex flex-col justify-between\">\n                    <!-- Top Section -->\n                    <div class=\"flex flex-col sm:flex-row sm:items-start sm:justify-between mb-6 sm:mb-12\">\n                        <div>\n                            <p class=\"text-xs sm:text-sm uppercase tracking-widest text-white/60 mb-2 sm:mb-3\">CTC Capital</p>\n                            <p class=\"text-base sm:text-lg font-bold text-white\">ELITE CARD</p>\n                        </div>\n                        <div class=\"chip mt-4 sm:mt-0\">\n                            <svg width=\"32\" height=\"32\" viewBox=\"0 0 32 32\" fill=\"none\">\n                                <rect x=\"2\" y=\"2\" width=\"28\" height=\"28\" rx=\"4\" fill=\"#fbbf24\"/>\n                                <rect x=\"4\" y=\"4\" width=\"24\" height=\"8\" fill=\"#f59e0b\"/>\n                                <circle cx=\"10\" cy=\"20\" r=\"3\" fill=\"#f59e0b\"/>\n                                <circle cx=\"22\" cy=\"20\" r=\"3\" fill=\"#f59e0b\"/>\n                            </svg>\n                        </div>\n                    </div>\n\n                    <!-- Middle Section - Card Number -->\n                    <div class=\"mb-8 sm:mb-12 text-center\">\n                        <p class=\"text-xs sm:text-sm uppercase tracking-widest text-white/60 mb-3 sm:mb-4\">Card Number</p>\n                        <p class=\"text-2xl sm:text-4xl font-bold tracking-[0.2em] hologram-text font-mono\" id=\"cardNumber\">\n                            <span class=\"loading-skeleton inline-block w-48 h-8 rounded\"></span>\n                        </p>\n                    </div>\n\n                    <!-- Bottom Section - Cardholder Info -->\n                    <div class=\"flex flex-col sm:flex-row sm:items-end sm:justify-between\">\n                        <div>\n                            <p class=\"text-xs uppercase tracking-widest text-white/60 mb-2 sm:mb-3\">Cardholder</p>\n                            <p class=\"text-lg sm:text-xl font-bold text-white uppercase tracking-wide\" id=\"cardholderName\">\n                                <span class=\"loading-skeleton inline-block w-40 h-6 rounded\"></span>\n                            </p>\n                        </div>\n                        <div class=\"flex gap-6 sm:gap-8 mt-4 sm:mt-0\">\n                            <div>\n                                <p class=\"text-xs uppercase tracking-widest text-white/60 mb-2\">Expires</p>\n                                <p class=\"text-lg sm:text-xl font-bold text-white font-mono\" id=\"expiryDate\">MM/YY</p>\n                            </div>\n                            <div>\n                                <p class=\"text-xs uppercase tracking-widest text-white/60 mb-2\">CVV</p>\n                                <p class=\"text-lg sm:text-xl font-bold text-white font-mono\">***</p>\n                            </div>\n                        </div>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <!-- Card Statistics -->\n        <div class=\"grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4 mb-8 sm:mb-12\">\n            <div class=\"stats-card\">\n                <p class=\"text-xs sm:text-sm text-slate-600 uppercase tracking-wide mb-2 sm:mb-3\">Card Status</p>\n                <p class=\"text-lg sm:text-2xl font-bold text-green-600\" id=\"cardStatus\">Loading...</p>\n                <p class=\"text-xs sm:text-sm text-slate-600 mt-2\">Active and ready to use</p>\n            </div>\n\n            <div class=\"stats-card\">\n                <p class=\"text-xs sm:text-sm text-slate-600 uppercase tracking-wide mb-2 sm:mb-3\">Daily Limit</p>\n                <p class=\"text-lg sm:text-2xl font-bold text-blue-600\" id=\"dailyLimit\">Loading...</p>\n                <p class=\"text-xs sm:text-sm text-slate-600 mt-2\">Available today</p>\n            </div>\n\n            <div class=\"stats-card\">\n                <p class=\"text-xs sm:text-sm text-slate-600 uppercase tracking-wide mb-2 sm:mb-3\">Account Balance</p>\n                <p class=\"text-lg sm:text-2xl font-bold text-slate-900\" id=\"accountBalance\">Loading...</p>\n                <p class=\"text-xs sm:text-sm text-slate-600 mt-2\">Available funds</p>\n            </div>\n\n            <div class=\"stats-card\">\n                <p class=\"text-xs sm:text-sm text-slate-600 uppercase tracking-wide mb-2 sm:mb-3\">Reward Points</p>\n                <p class=\"text-lg sm:text-2xl font-bold text-purple-600\" id=\"rewardPoints\">Loading...</p>\n                <p class=\"text-xs sm:text-sm text-slate-600 mt-2\">Points earned</p>\n            </div>\n        </div>\n\n        <!-- Card Features -->\n        <div class=\"bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 mb-8 sm:mb-12\">\n            <h2 class=\"text-xl sm:text-2xl font-bold text-slate-900 mb-6 flex items-center gap-3\">\n                <i data-lucide=\"sparkles\" class=\"w-6 h-6 text-blue-600\"></i>\n                Card Features & Benefits\n            </h2>\n            <div class=\"grid sm:grid-cols-2 gap-4 sm:gap-6\">\n                <div class=\"flex gap-4\">\n                    <div class=\"w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0\">\n                        <i data-lucide=\"shield-check\" class=\"w-5 h-5 text-blue-600\"></i>\n                    </div>\n                    <div>\n                        <h3 class=\"font-semibold text-slate-900 mb-1\">Fraud Protection</h3>\n                        <p class=\"text-sm text-slate-600\">24/7 fraud detection and zero liability</p>\n                    </div>\n                </div>\n                <div class=\"flex gap-4\">\n                    <div class=\"w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0\">\n                        <i data-lucide=\"zap\" class=\"w-5 h-5 text-green-600\"></i>\n                    </div>\n                    <div>\n                        <h3 class=\"font-semibold text-slate-900 mb-1\">Instant Transactions</h3>\n                        <p class=\"text-sm text-slate-600\">Real-time payment processing worldwide</p>\n                    </div>\n                </div>\n                <div class=\"flex gap-4\">\n                    <div class=\"w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0\">\n                        <i data-lucide=\"gift\" class=\"w-5 h-5 text-purple-600\"></i>\n                    </div>\n                    <div>\n                        <h3 class=\"font-semibold text-slate-900 mb-1\">Reward Points</h3>\n                        <p class=\"text-sm text-slate-600\">Earn 2% cash back on all purchases</p>\n                    </div>\n                </div>\n                <div class=\"flex gap-4\">\n                    <div class=\"w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0\">\n                        <i data-lucide=\"globe\" class=\"w-5 h-5 text-orange-600\"></i>\n                    </div>\n                    <div>\n                        <h3 class=\"font-semibold text-slate-900 mb-1\">Global Access</h3>\n                        <p class=\"text-sm text-slate-600\">Accepted in 190+ countries worldwide</p>\n                    </div>\n                </div>\n            </div>\n        </div>\n\n        <!-- Card Actions -->\n        <div class=\"grid sm:grid-cols-2 gap-4 sm:gap-6\">\n            <button class=\"bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2\">\n                <i data-lucide=\"lock\" class=\"w-5 h-5\"></i>\n                Lock/Unlock Card\n            </button>\n            <button class=\"border border-slate-200 hover:bg-slate-50 text-slate-900 font-semibold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2\">\n                <i data-lucide=\"settings\" class=\"w-5 h-5\"></i>\n                Card Settings\n            </button>\n        </div>\n    </div>\n\n    <script type=\"module\">\n        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';\n        import { getAuth, onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';\n        import { getFirestore, doc, onSnapshot } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js';\n\n        const firebaseConfig = {\n            apiKey: \"AIzaSyDVlCsLQZCIXTSa_lQGNiC5ORRfngCGG2E\",\n            authDomain: \"ctc-capital-elite.firebaseapp.com\",\n            projectId: \"ctc-capital-elite\",\n            storageBucket: \"ctc-capital-elite.appspot.com\",\n            messagingSenderId: \"821905163636\",\n            appId: \"1:821905163636:web:0c3e78fbe9c1cf14f2a5c8\"\n        };\n\n        const app = initializeApp(firebaseConfig);\n        const auth = getAuth(app);\n        const db = getFirestore(app);\n\n        // Generate virtual card number\n        function generateCardNumber(userId) {\n            let hash = 0;\n            for (let i = 0; i < userId.length; i++) {\n                const char = userId.charCodeAt(i);\n                hash = ((hash << 5) - hash) + char;\n                hash = hash & hash;\n            }\n            const num = Math.abs(hash) % 9000 + 1000;\n            return `4532 ${String(num).padStart(4, '0')} ${String(Math.floor(Math.random() * 9000) + 1000).padStart(4, '0')} 8963`;\n        }\n\n        onAuthStateChanged(auth, async (user) => {\n            if (!user) {\n                window.location.replace('../public/index.html');\n                return;\n            }\n\n            // Load user data\n            const userRef = doc(db, 'users', user.uid);\n            onSnapshot(userRef, (snap) => {\n                if (!snap.exists()) return;\n                const userData = snap.data();\n\n                // Update card number\n                document.getElementById('cardNumber').textContent = generateCardNumber(user.uid);\n\n                // Update cardholder name\n                const fullName = userData.fullName || userData.displayName || 'Cardholder';\n                document.getElementById('cardholderName').textContent = fullName.toUpperCase();\n\n                // Update expiry (current date + 4 years)\n                const expiry = new Date();\n                expiry.setFullYear(expiry.getFullYear() + 4);\n                const month = String(expiry.getMonth() + 1).padStart(2, '0');\n                const year = String(expiry.getFullYear()).slice(-2);\n                document.getElementById('expiryDate').textContent = `${month}/${year}`;\n\n                // Update card status\n                document.getElementById('cardStatus').textContent = user.emailVerified ? 'Active' : 'Pending Verification';\n\n                // Update daily limit\n                document.getElementById('dailyLimit').textContent = '$10,000.00';\n\n                // Update account balance\n                const balance = userData.usdBalance || userData.balance || 0;\n                document.getElementById('accountBalance').textContent = `$${balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;\n\n                // Update reward points (fake for demo)\n                const points = Math.floor(balance * 0.02 * 100); // Assume 2% of balance\n                document.getElementById('rewardPoints').textContent = `${points.toLocaleString()}`;\n            });\n        });\n\n        lucide.createIcons();\n    </script>\n</body>\n</html>\n

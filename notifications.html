@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Notifications | CTC Capital</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        body { margin: 0; font-family: 'Plus Jakarta Sans', sans-serif; min-height: 100vh; background-color: #F8FAFC; color: #0f172a; }
+        .glass { background: rgba(255, 255, 255, 0.94); border: 1px solid rgba(148, 163, 184, 0.16); backdrop-filter: blur(12px); }
+        .header-panel { background: #eff6ff; border: 1px solid rgba(59, 130, 246, 0.18); }
+        .notification-card { transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease; box-shadow: 0 16px 40px -28px rgba(15, 23, 42, 0.2); border: 1px solid rgba(148, 163, 184, 0.24); background: #ffffff; }
+        .notification-card:hover { transform: translateY(-2px); border-color: rgba(59, 130, 246, 0.3); box-shadow: 0 18px 40px -24px rgba(59, 130, 246, 0.12); }
+        .unread { border-left: 4px solid #f59e0b; }
+        .read { opacity: 0.78; }
+        .btn-primary { background: linear-gradient(135deg,#0d4d8b,#1465b6); color: #ffffff; }
+        .btn-primary:hover { background: linear-gradient(135deg,#1158c7,#3b82f6); }
+        .btn-secondary { background: #ffffff; border: 1px solid rgba(148, 163, 184, 0.28); color: #0f172a; }
+        .btn-secondary:hover { background: #e2e8f0; }
+        .status-pill { display: inline-flex; align-items: center; gap: 0.4rem; border-radius: 9999px; padding: 0.55rem 0.9rem; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; }
+        .status-new { background: rgba(59, 130, 246, 0.12); color: #1d4ed8; }
+        .status-read { background: rgba(14, 165, 233, 0.12); color: #0369a1; }
+        .notification-meta { color: #475569; font-size: 0.9rem; }
+        .actions-panel { gap: 0.75rem; }
+        code { background: rgba(15, 23, 42, 0.06); color: #0f172a; padding: 0.15rem 0.3rem; border-radius: 0.35rem; }
+    </style>
+</head>
+<body>
+    <div class="min-h-screen max-w-6xl mx-auto p-6 lg:p-8">
+        <div class="mb-6 glass header-panel p-6 rounded-[2rem] shadow-sm">
+            <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div class="space-y-3">
+                    <p class="text-sm uppercase tracking-[0.35em] text-slate-500">CTC Capital Enterprise</p>
+                    <h1 class="text-4xl font-semibold tracking-tight text-slate-900">Notification Center</h1>
+                    <p class="max-w-2xl text-slate-600">A professional centralized notification bar for account alerts, market signals, and secure administrative updates.</p>
+                </div>
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                    <div class="inline-flex items-center gap-2 rounded-full bg-white px-4 py-3 shadow-sm border border-slate-200 text-sm text-slate-700">
+                        <span class="font-semibold" id="notificationCount">Loading notifications</span>
+                    </div>
+                    <button id="markAllRead" class="btn-primary rounded-full px-5 py-3 text-sm font-semibold">Mark all read</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="authNotice" class="glass p-6 border border-amber-400/20 mb-6 hidden rounded-[2rem]">
+            <p class="text-slate-700">Please sign in to load your secure notifications.</p>
+        </div>
+
+        <div class="glass p-6 rounded-[2rem] border border-slate-200 shadow-sm">
+            <div class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                <div>
+                    <p class="text-sm uppercase tracking-[0.35em] text-slate-500">Activity stream</p>
+                    <h2 class="text-2xl font-semibold text-slate-900">Latest alerts and action items</h2>
+                </div>
+                <div class="flex flex-wrap gap-3 items-center">
+                    <button id="sendMessageBtn" class="btn-primary rounded-full px-5 py-3 text-sm font-semibold">Send Message to User</button>
+                    <button id="refreshFeed" class="btn-secondary rounded-full px-4 py-2 text-sm">Refresh feed</button>
+                    <a href="../admin/users.html" class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-900 border border-slate-200"> <i data-lucide="users" class="w-4 h-4"></i> Manage Users</a>
+                    <a href="profile.html" class="inline-flex items-center gap-2 rounded-full bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-900 border border-slate-200"> <i data-lucide="user" class="w-4 h-4"></i> Account profile</a>
+                </div>
+            </div>
+
+            <div id="notificationFeed" class="space-y-4">
+                <div class="notification-card p-6 rounded-[1.75rem] border border-slate-200 bg-slate-50">
+                    <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+                        <div class="space-y-2">
+                            <p class="text-xs uppercase tracking-[0.35em] text-slate-500">System status</p>
+                            <h3 class="text-xl font-semibold text-slate-900">Connecting to Firestore and listening for new alerts</h3>
+                            <p class="text-sm text-slate-600">Your private notifications are delivered securely to your account feed.</p>
+                        </div>
+                        <span class="status-pill status-new">Awaiting updates</span>
+                    </div>
+                </div>
+            </div>
+
+    <!-- Message Modal -->
+    <div id="messageModal" class="fixed inset-0 z-50 hidden flex items-center justify-center bg-slate-900/80 p-4">
+        <div class="max-w-md w-full bg-white rounded-[2rem] border border-slate-200 shadow-2xl overflow-hidden">
+            <div class="bg-slate-900 px-6 py-5 border-b border-slate-700">
+                <h2 class="text-lg font-bold text-white">Send Message to User</h2>
+                <p class="text-sm text-slate-400 mt-1">Select a user and send them a notification</p>
+            </div>
+            <div class="p-6 space-y-4">
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Select User</label>
+                    <select id="userSelect" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none ring-1 ring-transparent transition focus:border-blue-400 focus:ring-blue-400/20">
+                        <option value="">Choose a user...</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Message Type</label>
+                    <select id="messageType" class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none ring-1 ring-transparent transition focus:border-blue-400 focus:ring-blue-400/20">
+                        <option value="info">Information</option>
+                        <option value="warning">Warning</option>
+                        <option value="success">Success</option>
+                        <option value="error">Error</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-slate-700 mb-2">Message</label>
+                    <textarea id="messageContent" rows="4" placeholder="Enter your message..." class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-slate-900 outline-none ring-1 ring-transparent transition focus:border-blue-400 focus:ring-blue-400/20 resize-none"></textarea>
+                </div>
+                <div class="flex gap-3">
+                    <button id="sendMessageBtn" class="flex-1 rounded-xl bg-blue-600 px-4 py-3 text-white font-semibold hover:bg-blue-700 transition">Send Message</button>
+                    <button id="cancelMessageBtn" class="flex-1 rounded-xl border border-slate-300 bg-slate-100 px-4 py-3 text-slate-900 font-semibold hover:bg-slate-200 transition">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, query, orderBy, onSnapshot, doc, updateDoc, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAjx0r8OsJAEI8sdTopWadcGYcnD9jcme4",
+            authDomain: "ctc-capital.firebaseapp.com",
+            projectId: "ctc-capital",
+            storageBucket: "ctc-capital.firebasestorage.app",
+            messagingSenderId: "563837502113",
+            appId: "1:563837502113:web:d84ae0e9d07c997ebb26e0",
+            measurementId: "G-7L643VX04V"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const authNotice = document.getElementById('authNotice');
+        const notificationFeed = document.getElementById('notificationFeed');
+        const notificationCount = document.getElementById('notificationCount');
+        const markAllRead = document.getElementById('markAllRead');
+        const sendMessageBtn = document.getElementById('sendMessageBtn');
+        const messageModal = document.getElementById('messageModal');
+        const userSelect = document.getElementById('userSelect');
+        const messageType = document.getElementById('messageType');
+        const messageContent = document.getElementById('messageContent');
+        const sendMessageModalBtn = document.getElementById('sendMessageBtn');
+        const cancelMessageBtn = document.getElementById('cancelMessageBtn');
+
+        let currentUid = null;
+        let currentSnapshotUnsubscribe = null;
+        let allUsers = [];
+
+        async function loadUsers() {
+            try {
+                const usersSnapshot = await getDocs(collection(db, 'users'));
+                allUsers = [];
+                usersSnapshot.forEach(doc => {
+                    const userData = doc.data();
+                    allUsers.push({
+                        uid: doc.id,
+                        name: userData.fullName || userData.email || 'Unknown User',
+                        email: userData.email || ''
+                    });
+                });
+
+                // Populate user select dropdown
+                userSelect.innerHTML = '<option value="">Choose a user...</option>';
+                allUsers.forEach(user => {
+                    const option = document.createElement('option');
+                    option.value = user.uid;
+                    option.textContent = `${user.name} (${user.email})`;
+                    userSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error loading users:', error);
+            }
+        }
+
+        function openMessageModal() {
+            messageModal.classList.remove('hidden');
+        }
+
+        function closeMessageModal() {
+            messageModal.classList.add('hidden');
+            userSelect.value = '';
+            messageContent.value = '';
+            messageType.value = 'info';
+        }
+
+        async function sendMessage() {
+            const selectedUserId = userSelect.value;
+            const message = messageContent.value.trim();
+            const type = messageType.value;
+
+            if (!selectedUserId || !message) {
+                alert('Please select a user and enter a message.');
+                return;
+            }
+
+            try {
+                // Add to user's notifications sub-collection
+                await addDoc(collection(db, 'users', selectedUserId, 'notifications'), {
+                    title: 'Admin Message',
+                    message: message,
+                    description: 'Message from CTC Capital administration.',
+                    type: 'Admin',
+                    createdAt: serverTimestamp(),
+                    read: false
+                });
+
+                // Also set as popup notification
+                await updateDoc(doc(db, 'users', selectedUserId), {
+                    currentNotification: message,
+                    notificationType: type
+                });
+
+                closeMessageModal();
+                alert('Message sent successfully!');
+            } catch (error) {
+                console.error('Error sending message:', error);
+                alert('Failed to send message. Please try again.');
+            }
+        }
+
+        onAuthStateChanged(auth, async (user) => {
+            if (!user) {
+                authNotice.classList.remove('hidden');
+                notificationFeed.innerHTML = '<div class="glass p-6 border border-slate-700/50 text-slate-400">Sign in to access your secure notifications feed.</div>';
+                notificationCount.textContent = '0 notifications';
+                currentUid = null;
+                if (currentSnapshotUnsubscribe) currentSnapshotUnsubscribe();
+                return;
+            }
+
+            currentUid = user.uid;
+            authNotice.classList.add('hidden');
+            subscribeNotifications(user.uid);
+            loadUsers(); // Load users for messaging
+        });
+
+        // Event listeners for messaging
+        sendMessageBtn.addEventListener('click', openMessageModal);
+        sendMessageModalBtn.addEventListener('click', sendMessage);
+        cancelMessageBtn.addEventListener('click', closeMessageModal);
+
+        function subscribeNotifications(uid) {
+            if (currentSnapshotUnsubscribe) currentSnapshotUnsubscribe();
+
+            const notificationsRef = collection(db, 'users', uid, 'notifications');
+            const notificationsQuery = query(notificationsRef, orderBy('createdAt', 'desc'));
+
+            currentSnapshotUnsubscribe = onSnapshot(notificationsQuery, (snapshot) => {
+                if (snapshot.empty) {
+                    notificationFeed.innerHTML = '<div class="glass p-6 border border-slate-700/50 text-slate-400">You have no notifications yet. Stay tuned for market alerts and account updates.</div>';
+                    notificationCount.textContent = '0 notifications';
+                    return;
+                }
+
+                const items = [];
+                let unread = 0;
+
+                snapshot.forEach((docSnap) => {
+                    const note = docSnap.data();
+                    const createdAt = note.createdAt?.toDate?.() || new Date();
+                    const formattedTime = createdAt.toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+                    const isRead = note.read === true;
+                    if (!isRead) unread += 1;
+
+                    items.push(`
+                        <article class="notification-card glass border ${isRead ? 'border-slate-700 bg-slate-900/65 read' : 'unread bg-slate-950/90'} p-5 rounded-3xl shadow-xl shadow-slate-950/20">
+                            <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4">
+                                <div class="space-y-2">
+                                    <p class="text-xs uppercase tracking-[0.35em] text-cyan-300/80">${note.title || 'Market Alert'}</p>
+                                    <h3 class="text-xl font-semibold text-white">${note.message || 'No message available.'}</h3>
+                                    <p class="text-sm text-slate-400">${note.description || 'Delivered by CTC Capital.'}</p>
+                                </div>
+                                <div class="text-right space-y-2">
+                                    <span class="block text-xs uppercase tracking-[0.35em] text-slate-500">${formattedTime}</span>
+                                    <button data-doc-id="${docSnap.id}" class="mark-read btn-secondary rounded-full px-4 py-2 text-sm text-white">${isRead ? 'Read' : 'Mark as read'}</button>
+                                </div>
+                            </div>
+                        </article>
+                    `);
+                });
+
+                notificationFeed.innerHTML = items.join('');
+                notificationCount.textContent = `${snapshot.size} notifications · ${unread} unread`;
+                Array.from(document.querySelectorAll('.mark-read')).forEach((button) => {
+                    button.addEventListener('click', async (event) => {
+                        const docId = event.currentTarget.dataset.docId;
+                        if (!docId || !currentUid) return;
+                        const noteRef = doc(db, 'users', currentUid, 'notifications', docId);
+                        await updateDoc(noteRef, { read: true });
+                    });
+                });
+            }, (error) => {
+                notificationFeed.innerHTML = `<div class="glass p-6 border border-red-500/30 text-red-300">Unable to load notifications: ${error.message}</div>`;
+                notificationCount.textContent = 'Error';
+            });
+        }
+
+        markAllRead.addEventListener('click', async () => {
+            if (!currentUid) return;
+            try {
+                const notificationsRef = collection(db, 'users', currentUid, 'notifications');
+                const snapshot = await getDocs(query(notificationsRef, orderBy('createdAt', 'desc')));
+                await Promise.all(snapshot.docs.map((docSnap) => {
+                    return updateDoc(doc(db, 'users', currentUid, 'notifications', docSnap.id), { read: true });
+                }));
+            } catch (error) {
+                console.error('Mark all read failed:', error);
+            }
+        });
+    </script>
+</body>
+</html>

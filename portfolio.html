@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Portfolio | CTC Capital Elite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8FAFC; }
+        .royal-gradient { background: linear-gradient(135deg, #0056B3 0%, #003D80 100%); }
+        .glass-panel { background: white; border: 1px solid #e2e8f0; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); }
+        .glass-panel:hover { box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .stat-card { transition: all 0.3s ease; }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1); }
+        .btc-card { background: linear-gradient(135deg, #f7931a 0%, #ffab40 100%); }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+    </style>
+</head>
+<body class="pb-24 lg:pb-0 lg:pl-64">
+    <div class="max-w-[1600px] mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6 lg:py-8">
+        <header class="mb-6 sm:mb-8 flex flex-col gap-4 sm:gap-6 lg:flex-row lg:items-end lg:justify-between">
+            <div class="flex-1">
+                <p class="text-xs sm:text-sm uppercase tracking-[0.35em] text-slate-500">CTC Capital Elite</p>
+                <h1 class="mt-2 sm:mt-3 text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 tracking-tight">Portfolio</h1>
+                <p class="mt-2 sm:mt-3 max-w-2xl text-sm sm:text-base text-slate-600">Track your investment performance with real-time portfolio analytics and live market data.</p>
+            </div>
+            <div class="flex gap-3 flex-wrap sm:flex-nowrap">
+                <div class="glass-panel rounded-[2rem] p-4 sm:p-5 text-center flex-1 sm:flex-none">
+                    <p class="text-xs uppercase tracking-[0.35em] text-slate-500">Total Value</p>
+                    <p class="mt-2 sm:mt-3 text-2xl sm:text-3xl font-extrabold text-blue-600" id="totalValue">$0.00</p>
+                </div>
+                <div class="glass-panel rounded-[2rem] p-4 sm:p-5 text-center flex-1 sm:flex-none">
+                    <p class="text-xs uppercase tracking-[0.35em] text-slate-500">24h Change</p>
+                    <p class="mt-2 sm:mt-3 text-xl sm:text-2xl font-extrabold text-green-600" id="change24h">+0.00%</p>
+                </div>
+            </div>
+        </header>
+
+        <!-- Portfolio Stats -->
+        <div class="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4 mb-6 sm:mb-8">
+            <div class="glass-panel rounded-[2rem] p-4 sm:p-6 stat-card">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                        <p class="text-xs sm:text-sm text-slate-600 uppercase tracking-wide">Portfolio Value</p>
+                        <p class="text-xl sm:text-2xl font-bold text-slate-900 mt-2" id="portfolioValue">$0.00</p>
+                    </div>
+                    <div class="w-10 sm:w-12 h-10 sm:h-12 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0 ml-2">
+                        <i data-lucide="trending-up" class="w-5 sm:w-6 h-5 sm:h-6 text-blue-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel rounded-[2rem] p-4 sm:p-6 stat-card">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                        <p class="text-xs sm:text-sm text-slate-600 uppercase tracking-wide">Total Gain/Loss</p>
+                        <p class="text-xl sm:text-2xl font-bold text-green-600 mt-2" id="totalGain">+$0.00</p>
+                    </div>
+                    <div class="w-10 sm:w-12 h-10 sm:h-12 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0 ml-2">
+                        <i data-lucide="dollar-sign" class="w-5 sm:w-6 h-5 sm:h-6 text-green-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel rounded-[2rem] p-4 sm:p-6 stat-card">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                        <p class="text-xs sm:text-sm text-slate-600 uppercase tracking-wide">ROI</p>
+                        <p class="text-xl sm:text-2xl font-bold text-slate-900 mt-2" id="roi">+0.00%</p>
+                    </div>
+                    <div class="w-10 sm:w-12 h-10 sm:h-12 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0 ml-2">
+                        <i data-lucide="percent" class="w-5 sm:w-6 h-5 sm:h-6 text-purple-600"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-panel rounded-[2rem] p-4 sm:p-6 stat-card">
+                <div class="flex items-center justify-between">
+                    <div class="flex-1">
+                        <p class="text-xs sm:text-sm text-slate-600 uppercase tracking-wide">Cash Balance</p>
+                        <p class="text-xl sm:text-2xl font-bold text-slate-900 mt-2" id="cashBalance">$0.00</p>
+                    </div>
+                    <div class="w-10 sm:w-12 h-10 sm:h-12 bg-yellow-100 rounded-full flex items-center justify-center flex-shrink-0 ml-2">
+                        <i data-lucide="wallet" class="w-5 sm:w-6 h-5 sm:h-6 text-yellow-600"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chart and Holdings -->
+        <div class="grid gap-4 sm:gap-6 lg:grid-cols-[2fr_1fr]">
+            <!-- Portfolio Chart -->
+            <div class="glass-panel rounded-[2rem] p-4 sm:p-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4 sm:mb-6">
+                    <h2 class="text-lg sm:text-xl font-bold text-slate-900">Portfolio Performance</h2>
+                    <div class="flex gap-2 flex-wrap">
+                        <button id="timeframe1D" class="px-3 sm:px-4 py-2 bg-blue-100 text-blue-600 rounded-lg text-xs sm:text-sm font-medium">1D</button>
+                        <button id="timeframe1W" class="px-3 sm:px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs sm:text-sm font-medium">1W</button>
+                        <button id="timeframe1M" class="px-3 sm:px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs sm:text-sm font-medium">1M</button>
+                        <button id="timeframe1Y" class="px-3 sm:px-4 py-2 bg-slate-100 text-slate-600 rounded-lg text-xs sm:text-sm font-medium">1Y</button>
+                    </div>
+                </div>
+                <div class="h-60 sm:h-80">
+                    <canvas id="portfolioChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Holdings List -->
+            <div class="glass-panel rounded-[2rem] p-4 sm:p-6">
+                <h2 class="text-lg sm:text-xl font-bold text-slate-900 mb-4 sm:mb-6">Holdings</h2>
+                <div class="space-y-3 max-h-96 overflow-y-auto" id="holdingsList">
+                    <!-- Holdings will be populated -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAjx0r8OsJAEI8sdTopWadcGYcnD9jcme4",
+            authDomain: "ctc-capital.firebaseapp.com",
+            projectId: "ctc-capital",
+            storageBucket: "ctc-capital.firebasestorage.app",
+            messagingSenderId: "563837502113",
+            appId: "1:563837502113:web:d84ae0e9d07c997ebb26e0",
+            measurementId: "G-7L643VX04V"
+        };
+
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, doc, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        // DOM Elements
+        const totalValueEl = document.getElementById('totalValue');
+        const change24hEl = document.getElementById('change24h');
+        const portfolioValueEl = document.getElementById('portfolioValue');
+        const totalGainEl = document.getElementById('totalGain');
+        const roiEl = document.getElementById('roi');
+        const cashBalanceEl = document.getElementById('cashBalance');
+        const holdingsListEl = document.getElementById('holdingsList');
+        const timeframeButtons = document.querySelectorAll('#timeframe1D, #timeframe1W, #timeframe1M, #timeframe1Y');
+
+        let portfolioData = [];
+        let userBalance = 0;
+        let chart;
+        let currentTimeframe = '1D';
+
+        // Initialize Chart
+        function initChart() {
+            const ctx = document.getElementById('portfolioChart').getContext('2d');
+            chart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Portfolio Value',
+                        data: [],
+                        borderColor: '#0056B3',
+                        backgroundColor: 'rgba(0, 86, 179, 0.1)',
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: '#f3f4f6'
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return '$' + value.toLocaleString();
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Generate mock historical data
+        function generateHistoricalData(timeframe) {
+            const now = new Date();
+            let dataPoints = [];
+            let labels = [];
+
+            switch(timeframe) {
+                case '1D':
+                    dataPoints = 24;
+                    for (let i = 0; i < dataPoints; i++) {
+                        const time = new Date(now.getTime() - (23 - i) * 60 * 60 * 1000);
+                        labels.push(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+                    }
+                    break;
+                case '1W':
+                    dataPoints = 7;
+                    for (let i = 0; i < dataPoints; i++) {
+                        const date = new Date(now.getTime() - (6 - i) * 24 * 60 * 60 * 1000);
+                        labels.push(date.toLocaleDateString([], { weekday: 'short' }));
+                    }
+                    break;
+                case '1M':
+                    dataPoints = 30;
+                    for (let i = 0; i < dataPoints; i++) {
+                        const date = new Date(now.getTime() - (29 - i) * 24 * 60 * 60 * 1000);
+                        labels.push(date.getDate().toString());
+                    }
+                    break;
+                case '1Y':
+                    dataPoints = 12;
+                    for (let i = 0; i < dataPoints; i++) {
+                        const date = new Date(now.getFullYear(), now.getMonth() - (11 - i), 1);
+                        labels.push(date.toLocaleDateString([], { month: 'short' }));
+                    }
+                    break;
+            }
+
+            // Generate realistic portfolio values
+            const baseValue = portfolioData.reduce((sum, item) => sum + (item.quantityOwned * item.currentPrice), 0) || 10000;
+            const data = [];
+            let currentValue = baseValue * 0.95; // Start slightly lower
+
+            for (let i = 0; i < dataPoints; i++) {
+                const volatility = 0.02; // 2% volatility
+                const change = (Math.random() - 0.5) * 2 * volatility;
+                currentValue *= (1 + change);
+                data.push(Math.max(0, currentValue));
+            }
+
+            return { labels, data };
+        }
+
+        // Update Chart
+        function updateChart() {
+            if (!chart) return;
+            const { labels, data } = generateHistoricalData(currentTimeframe);
+            chart.data.labels = labels;
+            chart.data.datasets[0].data = data;
+            chart.update();
+        }
+
+        // Timeframe buttons
+        timeframeButtons.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                timeframeButtons.forEach(b => b.classList.remove('bg-blue-100', 'text-blue-600'));
+                timeframeButtons.forEach(b => b.classList.add('bg-slate-100', 'text-slate-600'));
+                e.target.classList.remove('bg-slate-100', 'text-slate-600');
+                e.target.classList.add('bg-blue-100', 'text-blue-600');
+                currentTimeframe = e.target.id.replace('timeframe', '');
+                updateChart();
+            });
+        });
+
+        // Display Holdings
+        function displayHoldings() {
+            const holdingsListEl = document.getElementById('holdingsList');
+            if (!holdingsListEl) return;
+            holdingsListEl.innerHTML = '';
+            if (portfolioData.length === 0) {
+                holdingsListEl.innerHTML = `
+                    <div class="text-center py-8 text-slate-500">
+                        <svg class="w-12 h-12 mx-auto mb-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                        </svg>
+                        <p>No holdings yet</p>
+                        <a href="market.html" class="text-blue-600 hover:text-blue-800 mt-2 inline-block">Start trading</a>
+                    </div>
+                `;
+                return;
+            }
+
+            portfolioData.forEach(holding => {
+                const value = holding.quantityOwned * holding.currentPrice;
+                const invested = holding.totalInvested;
+                const gain = value - invested;
+                const gainPercent = invested > 0 ? (gain / invested) * 100 : 0;
+
+                const holdingEl = document.createElement('div');
+                holdingEl.className = 'flex items-center justify-between p-3 sm:p-4 border border-slate-200 rounded-lg hover:shadow-md transition-shadow';
+                holdingEl.innerHTML = `
+                    <div class="flex items-center gap-3 sm:gap-4 flex-1 min-w-0">
+                        <div class="w-9 sm:w-10 h-9 sm:h-10 bg-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                            <span class="text-blue-600 font-bold text-xs sm:text-sm">${holding.symbol.charAt(0)}</span>
+                        </div>
+                        <div class="min-w-0">
+                            <h3 class="font-semibold text-slate-900 text-sm sm:text-base">${holding.symbol}</h3>
+                            <p class="text-xs sm:text-sm text-slate-600">${holding.quantityOwned} shares</p>
+                        </div>
+                    </div>
+                    <div class="text-right flex-shrink-0 ml-2">
+                        <p class="font-semibold text-slate-900 text-sm sm:text-base">$${value.toFixed(2)}</p>
+                        <p class="text-xs sm:text-sm ${gain >= 0 ? 'text-green-600' : 'text-red-600'}">
+                            ${gain >= 0 ? '+' : ''}$${gain.toFixed(2)} (${gainPercent >= 0 ? '+' : ''}${gainPercent.toFixed(2)}%)
+                        </p>
+                    </div>
+                `;
+                holdingsListEl.appendChild(holdingEl);
+            });
+        }
+
+        // Update Stats
+        function updateStats() {
+            const totalValue = portfolioData.reduce((sum, item) => sum + (item.quantityOwned * item.currentPrice), 0);
+            const totalInvested = portfolioData.reduce((sum, item) => sum + item.totalInvested, 0);
+            const totalGain = totalValue - totalInvested;
+            const roi = totalInvested > 0 ? (totalGain / totalInvested) * 100 : 0;
+
+            totalValueEl.textContent = `$${totalValue.toFixed(2)}`;
+            portfolioValueEl.textContent = `$${totalValue.toFixed(2)}`;
+            totalGainEl.textContent = `${totalGain >= 0 ? '+' : ''}$${totalGain.toFixed(2)}`;
+            totalGainEl.className = totalGain >= 0 ? 'text-2xl font-bold text-green-600' : 'text-2xl font-bold text-red-600';
+            roiEl.textContent = `${roi >= 0 ? '+' : ''}${roi.toFixed(2)}%`;
+            cashBalanceEl.textContent = `$${userBalance.toFixed(2)}`;
+
+            // Mock 24h change
+            const change24h = (Math.random() - 0.5) * 4; // -2% to +2%
+            change24hEl.textContent = `${change24h >= 0 ? '+' : ''}${change24h.toFixed(2)}%`;
+            change24hEl.className = change24h >= 0 ? 'text-xl font-bold text-green-300' : 'text-xl font-bold text-red-300';
+
+            updateChart();
+            renderHoldings();
+        }
+
+        // Subscribe to Portfolio
+        function subscribePortfolio(uid) {
+            onSnapshot(collection(db, 'users', uid, 'portfolio'), (snapshot) => {
+                portfolioData = [];
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    portfolioData.push({
+                        id: docSnap.id,
+                        ...data,
+                        currentPrice: data.averagePrice // Simplified, in real app would get live price
+                    });
+                });                displayHoldings();                updateStats();
+            });
+        }
+
+        // Subscribe to User Balance
+        function subscribeUser(uid) {
+            onSnapshot(doc(db, 'users', uid), (snap) => {
+                if (!snap.exists()) return;
+                const data = snap.data();
+                userBalance = data.usdBalance || data.balance || 0;
+                updateStats();
+            });
+        }
+
+        // Auth
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.replace('../public/index.html');
+                return;
+            }
+            initChart();
+            subscribePortfolio(user.uid);
+            subscribeUser(user.uid);
+        });
+
+        lucide.createIcons();
+    </script>
+</body>
+</html>

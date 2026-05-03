@@ -1,0 +1,614 @@
+﻿<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <title>Marketplace Terminal | CTC Capital Elite</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8FAFC; color: #1e293b; }
+        .royal-gradient { background: linear-gradient(135deg, #0056B3 0%, #003D80 100%); }
+        .glass-effect { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.2); }
+        .stat-card { transition: all 0.3s ease; }
+        .stat-card:hover { transform: translateY(-3px); box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1); }
+        .btc-card { background: linear-gradient(135deg, #f7931a 0%, #ffab40 100%); }
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+
+        .stock-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stock-card { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); transition: all 0.3s ease; cursor: pointer; }
+        .stock-card:hover { transform: translateY(-2px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15); }
+        .price-change.positive { color: #10b981; }
+        .price-change.negative { color: #ef4444; }
+        .prediction-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+
+        .chat-container { background: white; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; height: 600px; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 1rem; display: flex; flex-direction: column-reverse; gap: 0.75rem; }
+        .chat-message { padding: 0.75rem 1rem; border-radius: 12px; background: #f8fafc; border: 1px solid #e2e8f0; }
+        .chat-message.admin { background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.3); }
+        .prediction-message { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+
+        .trading-panel { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+        .order-book { background: white; border-radius: 12px; padding: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Back Button -->
+        <div class="mb-4">
+            <a href="profile.html" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-600 rounded-lg hover:bg-blue-200 transition-colors font-semibold">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                Back to Profile
+            </a>
+        </div>
+        
+        <!-- Header -->
+        <div class="royal-gradient text-white p-6 rounded-xl mb-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-2xl font-bold">Marketplace Terminal</h1>
+                    <p class="text-blue-100">Real-time trading platform with AI predictions</p>
+                </div>
+                <div class="flex gap-4">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
+                        <div class="text-sm opacity-80">Portfolio Value</div>
+                        <div class="text-xl font-bold">$12,450.67</div>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg px-4 py-2">
+                        <div class="text-sm opacity-80">24h Change</div>
+                        <div class="text-xl font-bold text-green-300">+2.34%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stock Grid -->
+        <div class="stock-grid" id="stockGrid">
+            <!-- Stock cards will be populated by JavaScript -->
+        </div>
+
+        <!-- Main Content Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Trading Panel -->
+            <div class="trading-panel">
+                <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                    <i data-lucide="trending-up" class="w-5 h-5"></i>
+                    Quick Trade
+                </h3>
+                <form id="tradingForm" class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Symbol</label>
+                        <select id="tradeSymbol" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <option value="AAPL">Apple (AAPL)</option>
+                            <option value="TSLA">Tesla (TSLA)</option>
+                            <option value="GOOGL">Google (GOOGL)</option>
+                            <option value="MSFT">Microsoft (MSFT)</option>
+                            <option value="AMZN">Amazon (AMZN)</option>
+                            <option value="BTC">Bitcoin (BTC)</option>
+                            <option value="ETH">Ethereum (ETH)</option>
+                        </select>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Type</label>
+                            <select id="orderType" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="market">Market</option>
+                                <option value="limit">Limit</option>
+                                <option value="stop">Stop Loss</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium mb-1">Action</label>
+                            <select id="orderAction" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                                <option value="buy">Buy</option>
+                                <option value="sell">Sell</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Quantity</label>
+                        <input type="number" id="quantity" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter quantity">
+                    </div>
+                    <div id="priceField" style="display: none;">
+                        <label class="block text-sm font-medium mb-1">Price</label>
+                        <input type="number" id="price" step="0.01" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Enter price">
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-colors font-semibold">
+                        Place Order
+                    </button>
+                </form>
+            </div>
+
+            <!-- Live Chat with Predictions -->
+            <div class="chat-container">
+                <div class="p-4 border-b border-gray-200">
+                    <h3 class="text-lg font-bold flex items-center gap-2">
+                        <i data-lucide="message-circle" class="w-5 h-5"></i>
+                        Live Trading Chat & AI Predictions
+                    </h3>
+                    <div class="flex gap-2 mt-2">
+                        <div class="text-sm bg-green-100 text-green-800 px-2 py-1 rounded">Bullish: 65%</div>
+                        <div class="text-sm bg-red-100 text-red-800 px-2 py-1 rounded">Bearish: 35%</div>
+                    </div>
+                </div>
+                <div class="chat-messages" id="chatMessages">
+                    <!-- Messages will be populated by JavaScript -->
+                </div>
+                <div class="p-4 border-t border-gray-200">
+                    <div class="flex gap-2">
+                        <input type="text" id="chatInput" class="flex-1 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" placeholder="Type your message or ask for predictions...">
+                        <button id="sendMessage" class="px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                            <i data-lucide="send" class="w-5 h-5"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Book & Market Data -->
+            <div class="space-y-6">
+                <div class="order-book">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <i data-lucide="book-open" class="w-5 h-5"></i>
+                        Order Book
+                    </h3>
+                    <div id="orderBook">
+                        <!-- Order book will be populated by JavaScript -->
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <i data-lucide="trending-up" class="w-5 h-5"></i>
+                        Market Indicators
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between">
+                            <span>Volatility Index</span>
+                            <span class="font-semibold">18.45</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Fear & Greed</span>
+                            <span class="font-semibold text-green-600">Greed</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Market Cap</span>
+                            <span class="font-semibold">$2.1T</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyAjx0r8OsJAEI8sdTopWadcGYcnD9jcme4",
+            authDomain: "ctc-capital.firebaseapp.com",
+            projectId: "ctc-capital",
+            storageBucket: "ctc-capital.firebasestorage.app",
+            messagingSenderId: "563837502113",
+            appId: "1:563837502113:web:d84ae0e9d07c997ebb26e0",
+            measurementId: "G-7L643VX04V"
+        };
+
+        // Import Firebase modules
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+        import { getFirestore, collection, doc, query, where, orderBy, addDoc, setDoc, getDoc, getDocs, onSnapshot, updateDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        const STOCK_LIST = {
+            AAPL: { symbol: 'AAPL', name: 'Apple Inc.', price: 175.43, change: 2.34, volume: '45.2M' },
+            TSLA: { symbol: 'TSLA', name: 'Tesla Inc.', price: 248.50, change: -1.23, volume: '32.1M' },
+            GOOGL: { symbol: 'GOOGL', name: 'Alphabet Inc.', price: 142.87, change: 0.89, volume: '28.7M' },
+            MSFT: { symbol: 'MSFT', name: 'Microsoft Corp.', price: 378.85, change: 1.67, volume: '22.3M' },
+            AMZN: { symbol: 'AMZN', name: 'Amazon.com Inc.', price: 155.89, change: 3.21, volume: '38.9M' },
+            BTC: { symbol: 'BTC', name: 'Bitcoin', price: 43250.00, change: 5.67, volume: '1.2B' },
+            ETH: { symbol: 'ETH', name: 'Ethereum', price: 2650.00, change: 2.89, volume: '850M' },
+            OIL: { symbol: 'OIL', name: 'Oil & Gas Index', price: 78.45, change: -0.34, volume: '156M' },
+            TECH: { symbol: 'TECH', name: 'Tech Index', price: 4250.67, change: 1.45, volume: '2.1B' }
+        };
+
+        const stockCollection = () => collection(db, 'stocks');
+        const userDoc = (uid) => doc(db, 'users', uid);
+        const userTransactionsCollection = (uid) => collection(db, 'users', uid, 'transactions');
+        const userPortfolioCollection = (uid) => collection(db, 'users', uid, 'portfolio');
+        const stockDoc = (symbol) => doc(db, 'stocks', symbol);
+
+        const getStockQuery = () => query(stockCollection());
+
+        async function ensureStockDocs() {
+            try {
+                const snapshot = await getDocs(getStockQuery());
+                if (!snapshot.empty) {
+                    return;
+                }
+
+                const writes = Object.values(STOCK_LIST).map(stock => {
+                    return setDoc(stockDoc(stock.symbol), {
+                        name: stock.name,
+                        price: stock.price,
+                        change: stock.change,
+                        volume: stock.volume,
+                        symbol: stock.symbol,
+                        updatedAt: serverTimestamp()
+                    }, { merge: true });
+                });
+
+                await Promise.all(writes);
+            } catch (error) {
+                console.warn('Unable to ensure stock docs in Firestore:', error);
+            }
+        }
+
+        async function getLiveStockPrices() {
+            const snapshot = await getDocs(getStockQuery());
+            const prices = {};
+            snapshot.forEach(doc => {
+                const data = doc.data();
+                if (data && data.symbol) {
+                    prices[data.symbol] = {
+                        symbol: data.symbol,
+                        name: data.name,
+                        price: data.price,
+                        change: data.change,
+                        volume: data.volume
+                    };
+                }
+            });
+            return prices;
+        }
+
+        function getLocalStock(symbol) {
+            return STOCK_LIST[symbol] || null;
+        }
+
+        const stockLinks = {
+            AAPL: 'stocks/apple.html',
+            TSLA: 'stocks/tesla.html',
+            GOOGL: 'stocks/google.html',
+            MSFT: 'stocks/microsoft.html',
+            AMZN: 'stocks/amazon.html',
+            BTC: 'stocks/btc.html',
+            ETH: 'stocks/eth.html',
+            OIL: 'stocks/oil-gas.html',
+            TECH: 'stocks/tech-index.html'
+        };
+
+        const portfolioValueEl = document.getElementById('portfolioValue');
+        const marketChangeEl = document.getElementById('marketChange');
+        const currentTradeSymbol = document.getElementById('tradeSymbol');
+        const orderTypeInput = document.getElementById('orderType');
+        const actionInput = document.getElementById('orderAction');
+        const quantityInput = document.getElementById('quantity');
+        const priceInput = document.getElementById('price');
+        const priceField = document.getElementById('priceField');
+        const stockGrid = document.getElementById('stockGrid');
+        const chatContainer = document.getElementById('chatMessages');
+        const chatInput = document.getElementById('chatInput');
+        const sendButton = document.getElementById('sendMessage');
+        const tradeForm = document.getElementById('tradingForm');
+
+        let currentStocks = [];
+        let portfolioItems = [];
+        let userBalance = 0;
+        let currentUser = null;
+        let chatMessages = [];
+
+        function getStockLink(symbol) {
+            return stockLinks[symbol] || `stocks/${symbol.toLowerCase()}.html`;
+        }
+
+        function getInitialStocks() {
+            return Object.values(STOCK_LIST).map(stock => ({ ...stock, link: getStockLink(stock.symbol) }));
+        }
+
+        function initStockGrid(items) {
+            stockGrid.innerHTML = '';
+            items.forEach(stock => {
+                const card = document.createElement('div');
+                card.className = 'stock-card';
+                card.onclick = () => window.location.href = stock.link;
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h3 class="text-lg font-bold">${stock.symbol}</h3>
+                            <p class="text-gray-600 text-sm">${stock.name}</p>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xl font-bold">$${Number(stock.price || 0).toFixed(2)}</div>
+                            <div class="price-change ${stock.change >= 0 ? 'positive' : 'negative'} text-sm font-semibold">
+                                ${stock.change >= 0 ? '+' : ''}${Number(stock.change || 0).toFixed(2)}%
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600 mb-4">
+                        <span>Volume: ${stock.volume || 'N/A'}</span>
+                        <span>24h</span>
+                    </div>
+                    <div class="flex gap-2">
+                        <button class="flex-1 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition-colors text-sm font-semibold" onclick="event.stopPropagation(); quickTrade('${stock.symbol}', 'buy')">
+                            Buy
+                        </button>
+                        <button class="flex-1 bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700 transition-colors text-sm font-semibold" onclick="event.stopPropagation(); quickTrade('${stock.symbol}', 'sell')">
+                            Sell
+                        </button>
+                        <button class="px-4 bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition-colors text-sm font-semibold" onclick="event.stopPropagation(); window.location.href='${stock.link}'">
+                            Details
+                        </button>
+                    </div>
+                `;
+                stockGrid.appendChild(card);
+            });
+        }
+
+        window.quickTrade = function(symbol, action) {
+            currentTradeSymbol.value = symbol;
+            actionInput.value = action;
+            tradeForm.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        orderTypeInput.addEventListener('change', function() {
+            priceField.style.display = this.value === 'market' ? 'none' : 'block';
+        });
+
+        function renderChat() {
+            chatContainer.innerHTML = '';
+            chatMessages.forEach(msg => {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `chat-message ${msg.isAdmin ? 'admin' : ''} ${msg.isPrediction ? 'prediction-message' : ''}`;
+                messageDiv.innerHTML = `
+                    <div class="chat-author font-semibold ${msg.isAdmin ? 'text-yellow-600' : ''}">${msg.author} ${msg.isAdmin ? '👑' : ''}</div>
+                    <div class="mt-1">${msg.message}</div>
+                    ${msg.prediction ? `<div class="mt-2 text-sm opacity-90">${msg.prediction}</div>` : ''}
+                    <div class="text-xs opacity-60 mt-1">${new Date(msg.timestamp?.toDate()).toLocaleTimeString()}</div>
+                `;
+                chatContainer.appendChild(messageDiv);
+            });
+        }
+
+        sendButton.addEventListener('click', async () => {
+            const message = chatInput.value.trim();
+            if (!message || !currentUser) return;
+            try {
+                await addDoc(collection(db, 'global_chat'), {
+                    author: currentUser.displayName || currentUser.email.split('@')[0],
+                    message,
+                    timestamp: serverTimestamp(),
+                    isAdmin: false,
+                    isPrediction: false,
+                    prediction: null
+                });
+                chatInput.value = '';
+            } catch (error) {
+                console.error('Error sending chat message:', error);
+            }
+        });
+
+        chatInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendButton.click();
+        });
+
+        function updateMarketSummary() {
+            const totalValue = portfolioItems.reduce((sum, item) => {
+                const price = Number(item.currentPrice || item.price || item.averagePrice || 0);
+                return sum + price * Number(item.quantityOwned || 0);
+            }, 0);
+            portfolioValueEl.innerText = `$${totalValue.toFixed(2)}`;
+
+            const averageChange = currentStocks.length
+                ? currentStocks.reduce((acc, stock) => acc + Number(stock.change || 0), 0) / currentStocks.length
+                : 0;
+            marketChangeEl.textContent = `${averageChange >= 0 ? '+' : ''}${averageChange.toFixed(2)}%`;
+            marketChangeEl.classList.toggle('text-green-300', averageChange >= 0);
+            marketChangeEl.classList.toggle('text-red-300', averageChange < 0);
+        }
+
+        tradeForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            if (!currentUser) {
+                window.location.replace('../public/index.html');
+                return;
+            }
+
+            const symbol = currentTradeSymbol.value;
+            const action = actionInput.value;
+            const orderType = orderTypeInput.value;
+            const quantity = Number(quantityInput.value);
+            const referenceStock = currentStocks.find(stock => stock.symbol === symbol) || getLocalStock(symbol);
+            const price = orderType === 'market' ? Number(referenceStock?.price || 0) : Number(priceInput.value);
+            const totalCost = Number((price * quantity).toFixed(2));
+            const commission = Number((totalCost * 0.002).toFixed(2));
+
+            if (!symbol || quantity <= 0 || price <= 0) {
+                alert('Please select a stock, quantity and valid price.');
+                return;
+            }
+            if (totalCost < 20 || totalCost > 2000000) {
+                alert('Trades must be between $20 and $2,000,000.');
+                return;
+            }
+
+            const userRef = doc(db, 'users', currentUser.uid);
+            const portfolioRef = doc(db, 'users', currentUser.uid, 'portfolio', symbol);
+            const portfolioSnap = await getDoc(portfolioRef);
+            const existing = portfolioSnap.exists() ? portfolioSnap.data() : { quantityOwned: 0, totalInvested: 0, averagePrice: 0 };
+            const existingQty = Number(existing.quantityOwned || 0);
+            const existingInvested = Number(existing.totalInvested || 0);
+            const existingAvg = Number(existing.averagePrice || 0);
+
+            let updatedQty = existingQty;
+            let updatedInvested = existingInvested;
+            let updatedAvg = existingAvg;
+            let newBalance = Number(userBalance || 0);
+
+            if (action === 'buy') {
+                const totalDebit = totalCost + commission;
+                if (newBalance < totalDebit) {
+                    alert('Insufficient balance to place this order.');
+                    return;
+                }
+                updatedQty = existingQty + quantity;
+                updatedInvested = existingInvested + totalCost;
+                updatedAvg = updatedQty > 0 ? updatedInvested / updatedQty : 0;
+                newBalance = Number((newBalance - totalDebit).toFixed(2));
+            } else {
+                if (quantity > existingQty) {
+                    alert('You cannot sell more shares than you own.');
+                    return;
+                }
+                const costExiting = existingAvg * quantity;
+                updatedQty = existingQty - quantity;
+                updatedInvested = Number((existingInvested - costExiting).toFixed(2));
+                updatedAvg = updatedQty > 0 ? updatedInvested / updatedQty : 0;
+                newBalance = Number((newBalance + totalCost - commission).toFixed(2));
+            }
+
+            const portfolioPayload = {
+                symbol,
+                name: referenceStock?.name || symbol,
+                quantityOwned: updatedQty,
+                averagePrice: Number(updatedAvg.toFixed(2)),
+                totalInvested: Number(updatedInvested.toFixed(2)),
+                updatedAt: serverTimestamp()
+            };
+
+            const transactionPayload = {
+                symbol,
+                name: referenceStock?.name || symbol,
+                type: action,
+                action: action === 'buy' ? 'Market Buy' : 'Market Sell',
+                amount: totalCost,
+                quantity,
+                price,
+                status: 'completed',
+                commission,
+                timestamp: serverTimestamp(),
+                marketPrice: price
+            };
+
+            try {
+                await updateDoc(userRef, {
+                    usdBalance: newBalance,
+                    totalBalance: newBalance,
+                    lastUpdated: serverTimestamp()
+                });
+                await setDoc(portfolioRef, portfolioPayload, { merge: true });
+                await addDoc(collection(db, 'users', currentUser.uid, 'transactions'), transactionPayload);
+                alert(`Order executed: ${action.toUpperCase()} ${quantity} ${symbol} for $${totalCost.toFixed(2)}.`);
+                quantityInput.value = '';
+                priceInput.value = '';
+            } catch (error) {
+                console.error('Trade failed:', error);
+                alert('Unable to execute trade at this time. Please try again later.');
+            }
+        });
+
+        async function subscribeMarketData() {
+            await ensureStockDocs();
+            const stocksQuery = getStockQuery();
+            onSnapshot(stocksQuery, (snapshot) => {
+                const liveData = {};
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    if (data?.symbol) {
+                        liveData[data.symbol] = data;
+                    }
+                });
+                currentStocks = Object.values(STOCK_LIST).map(stock => ({
+                    ...stock,
+                    ...liveData[stock.symbol],
+                    link: getStockLink(stock.symbol)
+                }));
+                initStockGrid(currentStocks);
+                updateMarketSummary();
+            });
+        }
+
+        function subscribeGlobalChat() {
+            const chatQuery = query(collection(db, 'global_chat'), orderBy('timestamp', 'desc'), limit(50));
+            onSnapshot(chatQuery, (snapshot) => {
+                chatMessages = [];
+                snapshot.forEach(docSnap => {
+                    chatMessages.unshift(docSnap.data());
+                });
+                renderChat();
+            });
+        }
+
+        function subscribeUserSnapshot(uid) {
+            onSnapshot(doc(db, 'users', uid), (snap) => {
+                if (!snap.exists()) return;
+                const data = snap.data();
+                userBalance = Number(data.usdBalance ?? data.totalBalance ?? data.balance ?? 0);
+            });
+        }
+
+        function subscribePortfolio(uid) {
+            onSnapshot(collection(db, 'users', uid, 'portfolio'), (snapshot) => {
+                portfolioItems = [];
+                snapshot.forEach(docSnap => {
+                    const data = docSnap.data();
+                    const price = Number(currentStocks.find(stock => stock.symbol === docSnap.id)?.price || data.averagePrice || 0);
+                    portfolioItems.push({ id: docSnap.id, ...data, currentPrice: price });
+                });
+                updateMarketSummary();
+            });
+        }
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.replace('../public/index.html');
+                return;
+            }
+            currentUser = user;
+            subscribeMarketData();
+            subscribeGlobalChat();
+            subscribeUserSnapshot(user.uid);
+            subscribePortfolio(user.uid);
+        });
+
+        initStockGrid(getInitialStocks());
+        initStockBook();
+
+        function initStockBook() {
+            const orderBook = document.getElementById('orderBook');
+            const mockOrders = [
+                { price: 175.50, quantity: 100, type: 'sell' },
+                { price: 175.45, quantity: 250, type: 'sell' },
+                { price: 175.40, quantity: 150, type: 'sell' },
+                { price: 175.35, quantity: 100, type: 'buy' },
+                { price: 175.30, quantity: 200, type: 'buy' },
+                { price: 175.25, quantity: 300, type: 'buy' }
+            ];
+
+            orderBook.innerHTML = `
+                <div class="grid grid-cols-3 gap-4 mb-4 font-semibold text-sm">
+                    <div>Price</div>
+                    <div>Quantity</div>
+                    <div>Total</div>
+                </div>
+                ${mockOrders.map(order => `
+                    <div class="grid grid-cols-3 gap-4 py-2 text-sm border-b border-gray-100">
+                        <div class="${order.type === 'buy' ? 'text-green-600' : 'text-red-600'} font-semibold">$${order.price}</div>
+                        <div>${order.quantity}</div>
+                        <div>$${(order.price * order.quantity).toLocaleString()}</div>
+                    </div>
+                `).join('')}
+            `;
+        }
+
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>
+
